@@ -16,6 +16,7 @@ const Navbar = () => {
             <Link to="/dashboard" className="navbar-item">Dashboard</Link>
             <Link to="/chat" className="navbar-item">Chat</Link>
             <Link to="/map" className="navbar-item">Map</Link>
+            <Link to="/twitter" className="navbar-item">Social</Link>
         </>)
         : (<p className="navbar-note">The goodies doesn't come for free, <strong>Sign In</strong> first</p>)
 
@@ -28,6 +29,8 @@ const Navbar = () => {
                 </div>
 
                 <div className="navbar-end">
+                    <div className="navbar-item">
+                    </div>
                     <div className="navbar-item">
                         <div className="buttons">
                             {navOnline}

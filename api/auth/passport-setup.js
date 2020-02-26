@@ -33,9 +33,7 @@ passport.use(
                 new User({
                     username: profile.displayName,
                     email: profile.emails[0].value,
-                    googleId: profile.id,
-                    // tasks: [],
-                    token: accessToken
+                    googleId: profile.id
                 }).save()
                     .then(newUser => {
                         console.log('new user created: ' + newUser);

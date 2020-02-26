@@ -68,6 +68,17 @@ app.get('/users/:userId', (req, res) => {
         .then(user => res.send(user));
 });
 
+app.get('/users', (req, res) => {
+    User.find({}).then((users) => {
+        res.send(users);
+    })
+});
+
+app.patch('/users/:userId', (req, res) => {
+    User.findOneAndUpdate({ _id: req.params.userId }, { $set: req.body })
+        .then(() => res.sendStatus(200));
+});
+
 // GET /lists
 // purpose: get all lists
 app.get('/lists', (req, res) => {
@@ -112,7 +123,8 @@ app.patch('/lists/:id', (req, res) => {
 app.delete('/lists/:id', (req, res) => {
     // we want to delete the specified list
     List.findOneAndRemove({ _id: req.params.id }).then(removedListDoc => {
-        res.send(removedListDoc);
+        Task.remove({ _listId: req.params.id })
+            .then(res.send(removedListDoc));
     });
 });
 
@@ -143,8 +155,9 @@ app.post('/lists/:listId/tasks', (req, res) => {
     let newTask = new Task({
         title: req.body.title,
         status: req.body.status,
+        authorId: req.body.authorId,
         _listId: req.params.listId,
-        date: new Date()
+        date: new Date(),
     });
     newTask.save().then(newTaskDoc => {
         res.send(newTaskDoc);
