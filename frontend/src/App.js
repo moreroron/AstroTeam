@@ -14,6 +14,7 @@ import Chart from './utils/Chart';
 // scss
 import './index.scss';
 import MapContainer from './map/MapContainer';
+import Twitter from './utils/Twitter';
 
 function App() {
 
@@ -50,8 +51,9 @@ function App() {
         <Route exact path='/edit-list/:listId' component={EditList} />
         <Route exact path='/create-task/:listId' component={CreateTask} />
         <Route exact path='/dashboard/:listId/tasks/:taskId' component={EditTask} />
-        <Route exact path='/map' component={MapContainer} />
-        <Route exact path='/chart' component={Chart} />
+        <Route path='/map' component={MapContainer} />
+        <Route path='/chart' component={Chart} />
+        <Route path='/twitter' component={Twitter} />
         <Redirect to="/" />
       </Switch>
     )

@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
+import UserContext from '../UserContext';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import keys from '../keys';
 
 export class MapContainer extends Component {
+
     render() {
+
+        const { profile } = useContext(UserContext);
+
         return (
             <Map
                 google={this.props.google}

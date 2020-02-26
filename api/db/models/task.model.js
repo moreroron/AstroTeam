@@ -12,7 +12,8 @@ const TaskSchema = new mongoose.Schema({
         required: true
     },
     status: String, // Bug, Open, Closed
-    date: Date
+    date: Date,
+    authorId: String
 })
 
 const Task = mongoose.model('Task', TaskSchema)

@@ -13,17 +13,26 @@ const CreateTask = (props) => {
 
     const handleChange = (e) => {
         setStatus(e.target.value);
+        console.log(profile);
     }
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post(`http://localhost:3001/lists/${listId}/tasks`,
-            {
-                title: title,
-                status: status
-            }
-        ).then(console.log(status)
-        ).then(props.history.push('/dashboard'));
+        const newTask = {
+            title: title,
+            status: status,
+            authorId: profile._id
+        }
+        // adding new task
+        axios.post(`http://localhost:3001/lists/${listId}/tasks`, newTask)
+            // updating user's tasks with the new task
+            .then(
+                axios.patch(`http://localhost:3001/users/${profile._id}`,
+                    { tasks: [...profile.tasks, newTask] }
+                ))
+            .then(console.log(profile))
+            .then(
+                props.history.push('/dashboard'));
     }
 
     return (
