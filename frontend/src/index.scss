@@ -1,0 +1,96 @@
+// This is where we put global styles and change variable values
+@import '../node_modules/bulma/bulma.sass';
+@import './spaces.scss';
+// Import Fonts (Lato and Nunito)
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Nunito:400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap');
+
+$turquoise: #44ddd0;
+$green: #27d7a1;
+$light-green: #45f69e;
+$dark-green: rgb(0, 100, 80);
+$blue: #2146ec;
+$blue-hover: #2168ec;
+
+$light: #f8f8f8;
+
+
+// Update Bulma's global variables
+$family-sans-serif: "Roboto",
+sans-serif;
+$primary: $green;
+$link: $turquoise;
+$font-secondary: 'Odibee Sans';
+
+// Update some of Bulma's component variables
+
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+
+// Set custom global styles (will be applied to whole app)
+
+html {
+  // background: linear-gradient(to right top, $info, $info);
+  background: aliceblue;
+}
+
+html,
+body,
+#root,
+#root>div {
+  height: 100%;
+}
+
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 93%;
+}
+
+.modal-box {
+  min-height: 175px;
+  width: 100%;
+  max-width: 580px;
+  background: white;
+  border-radius: 5px;
+  padding: 35px;
+}
+
+.title {
+  font-family: 'Lato';
+  font-size: 24px;
+  // text-transform: uppercase;
+  // letter-spacing: 2px;
+}
+
+.title-secondary {
+  font-family: 'Odibee Sans';
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  border: none;
+  padding: 1em 1.5em 1em 1.5em;
+  border-radius: 0.3em;
+  font-size: 1em;
+  font-weight: bold;
+  background: $blue;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: $blue-hover;
+  transform: translateY(-4px);
+}
+
+.bg {
+  background: aliceblue;
+}
