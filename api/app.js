@@ -9,10 +9,13 @@ const cookieSession = require('cookie-session');
 const keys = require('./keys');
 const passport = require('passport');
 const geocode = require('./utils/geocode');
-
 const { mongoose } = require('./db/mongoose');
-
 const bodyParser = require('body-parser');
+
+// socket.io related
+const http = require('http');
+const socketIo = require('socket.io');
+const axios = require('axios');
 
 // load in the mongoose models
 const { List, Task, User } = require('./db/models');
@@ -41,6 +44,10 @@ app.use('/auth', authRoutes);
 // app.use('/users', userRoutes);
 app.use(bodyParser.json());
 
+// ********************************
+// ROUTES
+// ********************************
+
 // if it's already login, send the profile response,
 // otherwise, send a 401 response that the user is not authenticated
 // authCheck before navigating to home page
@@ -59,10 +66,6 @@ app.get("/", (req, res) => {
         })
     }
 });
-
-// ********************************
-// ROUTES
-// ********************************
 
 app.get('/geocode/:address', (req, res) => {
 
@@ -205,6 +208,23 @@ app.delete('/lists/:listId/tasks/:taskId', (req, res) => {
 });
 
 
-app.listen(3001, () => {
+const server = app.listen(3001, () => {
     console.log("server is listening on port 3001");
+});
+
+// ********************************
+// SOCKET.IO
+// ********************************
+
+const io = socketIo(server);
+io.on('connection', socket => {
+    console.log('made socket connection', socket.id);
+
+    socket.on('chat', data => {
+        io.sockets.emit('chat', data)
+    });
+
+    socket.on('typing', data => {
+        socket.broadcast.emit('typing', data);
+    });
 });
