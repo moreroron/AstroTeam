@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const authRoutes = require('./routes/auth-routes');
-const userRoutes = require('./routes/user-routes');
-const listsRoutes = require('./routes/lists-routes');
+// const userRoutes = require('./routes/user-routes');
+// const listsRoutes = require('./routes/lists-routes');
 const passportSetup = require('./auth/passport-setup');
 const cookieSession = require('cookie-session');
 const keys = require('./keys');
 const passport = require('passport');
+const geocode = require('./utils/geocode');
 
 const { mongoose } = require('./db/mongoose');
 
@@ -62,6 +63,21 @@ app.get("/", (req, res) => {
 // ********************************
 // ROUTES
 // ********************************
+
+app.get('/geocode/:address', (req, res) => {
+
+    const address = req.params.address;
+
+    geocode(address, (err, { longitude, lantitude, location } = {}) => {
+        if (!address) {
+            return res.send({ error: 'No such address has been found' })
+        }
+        if (err) {
+            return res.send({ error: err })
+        }
+        res.send({ longitude, lantitude, location });
+    })
+});
 
 app.get('/users/:userId', (req, res) => {
     User.find({ _id: req.params.userId })

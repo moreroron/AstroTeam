@@ -8,7 +8,30 @@ const Navbar = () => {
     const { isLoggedIn, profile } = useContext(UserContext);
 
     const navOnline = isLoggedIn
-        ? (<button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>)
+        ? (
+            <div className="dropdown is-hoverable is-right">
+                <div className="dropdown-trigger">
+                    <button className="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                        <span className="icon is-large">
+                            <i className="fas fa-user-astronaut"></i>
+                        </span>
+                        <span>{profile.username}</span>
+
+                    </button>
+                </div>
+                <div className="dropdown-menu" id="dropdown-menu3" role="menu">
+                    <div className="dropdown-content">
+                        <Link to="/profile" className="dropdown-item">Profile</Link>
+                        <hr className="dropdown-divider" />
+                        <a href="#" className="dropdown-item">
+                            <button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        )
+
+
         : (<button onClick={() => { window.location.replace('http://localhost:3001/auth/google') }} className="button google-btn">Signin with Google+</button>)
 
     const links = isLoggedIn

@@ -11,6 +11,7 @@ import CreateTask from './task/pages/CreateTask';
 import UserContext from './UserContext';
 import axios from 'axios';
 import Chart from './utils/Chart';
+import Profile from './user/Profile';
 // scss
 import './index.scss';
 import MapContainer from './map/MapContainer';
@@ -20,8 +21,19 @@ function App() {
 
   const [user, setUser] = useState({
     isLoggedIn: false,
-    profile: {}
+    profile: {
+      // country: "",
+      // tasks: [],
+      // _id: "",
+      // username: "",
+      // email: "",
+      // googleId: ""
+    }
   });
+
+  const updateProfile = (updatedProfile) => {
+    setUser({ isLoggedIn: true, profile: updatedProfile });
+  }
 
   useEffect(() => {
     axios.get('http://localhost:3001/', { withCredentials: true }).then(res => {
@@ -54,6 +66,7 @@ function App() {
         <Route path='/map' component={MapContainer} />
         <Route path='/chart' component={Chart} />
         <Route path='/twitter' component={Twitter} />
+        <Route path='/profile' component={Profile} />
         <Redirect to="/" />
       </Switch>
     )
@@ -66,7 +79,7 @@ function App() {
   }
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{ ...user, updateProfile: updateProfile }}>
       <BrowserRouter>
         <div className="bg">
           <Navbar />
