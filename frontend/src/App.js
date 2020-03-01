@@ -11,7 +11,8 @@ import CreateTask from './task/pages/CreateTask';
 import UserContext from './UserContext';
 import axios from 'axios';
 import Chart from './utils/Chart';
-import Profile from './user/Profile';
+import Profile from './user/pages/Profile';
+import Users from './user/pages/Users';
 // scss
 import './index.scss';
 import MapContainer from './map/MapContainer';
@@ -69,6 +70,7 @@ function App() {
         <Route path='/twitter' component={Twitter} />
         <Route path='/profile' component={Profile} />
         <Route path='/chat' component={Chat} />
+        <Route path='/users' component={Users} />
         <Redirect to="/" />
       </Switch>
     )

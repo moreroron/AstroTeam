@@ -1,51 +1,40 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { withRouter } from 'react-router-dom';
 import './NewList.scss';
 import axios from 'axios';
 
-class NewList extends Component {
-    state = {
-        title: ""
-    }
+const NewList = (props) => {
 
-    handleSubmit = (e) => {
+    const [title, setTitle] = useState('');
+
+    const inputRef = useRef();
+
+    useEffect(() => inputRef.current.focus(), []);
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3001/lists", { title: this.state.title })
-            .then(res => {
-                console.log(res)
-            }, err => {
-                console.log(err)
-            });
-        this.props.history.push('/dashboard');
+        axios.post("http://localhost:3001/lists", { title: title })
+            .then(props.history.push('/dashboard'));
     }
 
-    handleChange = (e) => {
-        this.setState({
-            [e.target.id]: e.target.value
-        })
-        console.log(this.state);
-    }
+    return (
+        <div className="centered-content">
+            <div className="modal-box">
+                <h1 className="title">Create a new list</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className="field">
+                        <input ref={inputRef} onChange={(e) => setTitle(e.target.value)} id="title" className="input" type="text" placeholder="list name" />
+                    </div>
 
-    render() {
-
-        return (
-            <div className="centered-content">
-                <div className="modal-box">
-                    <h1 className="title">Create a new list</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="field">
-                            <input onChange={this.handleChange} id="title" className="input" type="text" placeholder="list name" />
-                        </div>
-
-                        <div className="field buttons is-right">
-                            <input type="submit" className="button is-link" placeholder="Add" />
-                            <button className="button">Cancel</button>
-                        </div>
-                    </form>
-                </div>
+                    <div className="field buttons is-right">
+                        <input type="submit" className="button is-link" placeholder="Add" />
+                        <button className="button">Cancel</button>
+                    </div>
+                </form>
             </div>
-        )
-    }
+        </div>
+    )
 }
+
 
 export default withRouter(NewList)

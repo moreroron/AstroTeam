@@ -1,58 +1,73 @@
 import React, { Component } from 'react';
+import UserContext from '../../UserContext'
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class EditTask extends Component {
-    state = {
-        title: "",
-        listId: "",
-        taskId: "",
-        status: ""
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: {},
+            task: { title: "", status: "" }
+        }
     }
 
-    componentDidMount() {
+    static contextType = UserContext
+
+    getUserData = () => axios.get(`http://localhost:3001/users/${this.context.profile._id}`);
+    getTaskData = async () => {
         const { listId, taskId } = this.props.match.params;
+        const { data } = await axios.get(`http://localhost:3001/lists/${listId}/tasks/${taskId}`);
+        return data;
+    };
 
-        axios.get(`http://localhost:3001/lists/${listId}/tasks/${taskId}`).then(res => {
-            this.setState({
-                title: res.data.title,
-                listId: listId,
-                taskId: taskId,
-                status: res.data.status
-            })
-        })
-    }
+    async componentDidMount() {
+        const [userData, taskData] = await axios.all([this.getUserData(), this.getTaskData()]);
+        this.setState({
+            user: userData.data[0],
+            task: taskData
+        });
+        console.log(taskData, userData.data[0]);
+    };
 
-    handleSubmit = (e, listId, taskId) => {
+    handleSubmit = async (e, listId, taskId) => {
         e.preventDefault();
-        axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`,
-            {
-                title: this.state.title,
-                status: this.state.status
-            })
-            .then(res => { }, err => {
-                console.log(err)
-            });
+        // update task
+        const { data } = await axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`, {
+            title: this.state.task.title,
+            status: this.state.task.status
+        });
+        // update user's task
+        const updatedTasks = this.state.user.tasks.map(task => (task._id === this.state.task._id) ? this.state.task : task);
+        const res = await axios.patch(`http://localhost:3001/users/${this.state.user._id}`, { tasks: updatedTasks });
+        this.context.updateProfile(res.data);
         this.props.history.push('/dashboard');
     }
 
     handleChange = (e) => {
         this.setState({
-            [e.target.id]: e.target.value
-        })
+            task: { ...this.state.task, title: e.target.value }
+        });
     }
 
     handleStatusChange = (e) => {
         this.setState({
-            status: e.target.value
-        })
+            task: { ...this.state.task, status: e.target.value }
+        });
     }
 
-    handleDeleteTask = e => {
-        axios.delete(`http://localhost:3001/lists/${this.state.listId}/tasks/${this.state.taskId}`)
-            .then(res => {
-                console.log("task deleted");
-            })
+    handleDeleteTask = async (e) => {
+        const { user, task } = this.state
+        // delete task from tasks
+        const { data } = await axios.delete(`http://localhost:3001/lists/${task._listId}/tasks/${task._id}`);
+        // delete task from user's tasks
+        const updatedUserTasks = user.tasks.filter(t => t._id !== task._id);
+        console.log(updatedUserTasks);
+        const res = await axios.patch(`http://localhost:3001/users/${user._id}`, { tasks: [] });
+        console.log(res.data.tasks);
+        this.context.updateProfile(res.data);
+        this.props.history.push('/dashboard');
     }
 
     render() {
@@ -68,10 +83,10 @@ class EditTask extends Component {
                     <h1 className="title">Edit the task</h1>
                     <form onSubmit={e => this.handleSubmit(e, listId, taskId)}>
                         <div className="field">
-                            <input onChange={this.handleChange} id="title" className="input" type="text" value={this.state.title} />
+                            <input onChange={this.handleChange} id="title" className="input" type="text" value={this.state.task.title} />
                         </div>
                         <div className="select">
-                            <select value={this.state.status} onChange={this.handleStatusChange}>
+                            <select value={this.state.task.status} onChange={this.handleStatusChange}>
                                 <option value="open">Open</option>
                                 <option value="bug">Bug</option>
                                 <option value="closed">Closed</option>

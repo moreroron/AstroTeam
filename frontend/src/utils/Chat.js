@@ -10,7 +10,6 @@ const Chat = () => {
     const messageInputRef = useRef();
     const [typing, setTyping] = useState("");
     const [message, setMessage] = useState("");
-    const [handle, setHandle] = useState("");
     const [chat, setChat] = useState([]);
 
     useEffect(() => {
@@ -23,7 +22,6 @@ const Chat = () => {
             }]);
         });
 
-        console.log("useEffect is called");
         socketRef.current.on('typing', data => {
             setTyping(data);
         });

@@ -95,7 +95,8 @@ app.get('/users', (req, res) => {
 
 app.patch('/users/:userId', (req, res) => {
     User.findOneAndUpdate({ _id: req.params.userId }, { $set: req.body })
-        .then(() => res.sendStatus(200));
+        .then(console.log(req.body))
+        .then(updatedDoc => res.send(updatedDoc));
 });
 
 // GET /lists
@@ -163,8 +164,6 @@ app.get('/lists/:listId/tasks/:taskId', (req, res) => {
         _id: req.params.taskId,
         _listId: req.params.listId,
     }).then(task => res.send(task));
-
-    console.log(res);
 });
 
 // POST /lists/:listId/tasks
@@ -195,16 +194,28 @@ app.patch('/lists/:listId/tasks/:taskId', (req, res) => {
         {
             $set: req.body
         }
-    ).then(() => res.sendStatus(200));
+    ).then((updatedDoc) => res.send(updatedDoc));
 });
 
 // DELETE /lists/:listId/tasks/:taskId
-// purpose: delete an existing task
+// purpose: delete an existing task + update user tasks
 app.delete('/lists/:listId/tasks/:taskId', (req, res) => {
+    // remove task doc
     Task.findOneAndRemove({
         _id: req.params.taskId,
         _listId: req.params.listId
-    }).then(removedTaskDoc => res.send(removedTaskDoc));
+    })
+        // remove task from author array
+        // .then(removedTaskDoc => {
+        //     const userId = removedTaskDoc.authorId;
+        //     User.find({ _id: userId }).then(userDoc => {
+        //         console.log(userDoc.tasks);
+        //         const updatedTasks = userDoc.tasks.filter(task => task._id !== removedTaskDoc._id);
+        //         console.log(updatedTasks);
+        //         User.findOneAndUpdate({ _id: userId }, { tasks: updatedTasks });
+        //     })
+        // })
+        .then(removedTaskDoc => res.send(removedTaskDoc));
 });
 
 

@@ -1,3 +1,5 @@
+@import '../index.scss';
+
 .centered-content {
     display: flex;
     justify-content: center;
@@ -17,4 +19,9 @@
 .navbar-note {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.activeLink {
+    background-color: #fafafa !important;
+    color: $blue !important;
 }

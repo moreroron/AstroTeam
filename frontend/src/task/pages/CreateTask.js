@@ -1,19 +1,22 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../../UserContext';
 
 const CreateTask = (props) => {
 
+    const inputRef = useRef();
+
     const [title, setTitle] = useState("");
     const [status, setStatus] = useState("open");
 
     const { listId } = props.match.params;
-    const { profile } = useContext(UserContext);
+    const { profile, updateProfile } = useContext(UserContext);
+
+    useEffect(() => inputRef.current.focus(), []);
 
     const handleChange = (e) => {
         setStatus(e.target.value);
-        console.log(profile);
     }
 
     const handleSubmit = e => {
@@ -24,14 +27,25 @@ const CreateTask = (props) => {
             authorId: profile._id
         }
         // adding new task
+        const updatedUser = {};
         axios.post(`http://localhost:3001/lists/${listId}/tasks`, newTask)
             // updating user's tasks with the new task
             .then(
-                axios.patch(`http://localhost:3001/users/${profile._id}`,
-                    { tasks: [...profile.tasks, newTask] }
-                ))
-            .then(console.log(profile))
+                res => {
+                    const updatedTask = res.data;
+                    axios.get(`http://localhost:3001/users/${profile._id}`)
+                        .then(res => {
+                            axios.patch(`http://localhost:3001/users/${profile._id}`, { tasks: [...res.data[0].tasks, updatedTask] })
+                                .then(res => {
+                                    updateProfile(res.data);
+                                })
+                        })
+                }
+            )
             .then(
+                // axios.patch(`http://localhost:3001/users/${profile._id}`, { tasks: [...profile.tasks, newTask] })
+                //     .then(res => updateProfile(res.data))
+            ).then(
                 props.history.push('/dashboard'));
     }
 
@@ -41,7 +55,7 @@ const CreateTask = (props) => {
                 <h1 className="title">Create New Task</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="field">
-                        <input onChange={e => setTitle(e.target.value)} id="title" className="input" type="text" placeholder="give the task a name" />
+                        <input ref={inputRef} onChange={e => setTitle(e.target.value)} id="title" className="input" type="text" placeholder="give the task a name" />
                     </div>
                     <div className="select">
                         <select value={status} onChange={handleChange}>

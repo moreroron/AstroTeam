@@ -10,10 +10,15 @@ $turquoise: #44ddd0;
 $green: #27d7a1;
 $light-green: #45f69e;
 $dark-green: rgb(0, 100, 80);
+
 $blue:#3273dc;
 $blue-hover: #2965c5;
 
+$red: #f14668;
+$red-hover: #fc6a88;
+
 $light: #f8f8f8;
+$blue-bg: #e9f2f9;
 
 
 // Update Bulma's global variables
@@ -83,11 +88,28 @@ body,
   background: $blue;
   color: #ffffff;
   cursor: pointer;
-  transition: 0.2s ease-in-out;
+  transition: 0.1s ease-in-out;
 }
 
 .btn-primary:hover {
   background: $blue-hover;
+  transform: translateY(-4px);
+}
+
+.btn-danger {
+  border: none;
+  padding: 1em 1.5em 1em 1.5em;
+  border-radius: 0.3em;
+  font-size: 1em;
+  font-weight: bold;
+  background: $red;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.btn-danger:hover {
+  background: $red-hover;
   transform: translateY(-4px);
 }
 

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './Navbar.scss';
 import UserContext from '../UserContext';
 
@@ -21,7 +21,18 @@ const Navbar = () => {
                 </div>
                 <div className="dropdown-menu" id="dropdown-menu3" role="menu">
                     <div className="dropdown-content">
-                        <Link to="/profile" className="dropdown-item">Profile</Link>
+                        <Link to="/profile" className="dropdown-item">
+                            <span className="icon is-medium">
+                                <i className="fas fa-lg fa-user-astronaut"></i>
+                            </span>
+                            Profile
+                        </Link>
+                        <Link to="/users" className="dropdown-item">
+                            <span className="icon is-medium m-r-2">
+                                <i className="fas fa-lg fa-space-shuttle"></i>
+                            </span>
+                            Your Team
+                        </Link>
                         <hr className="dropdown-divider" />
                         <a href="#" className="dropdown-item">
                             <button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>
@@ -35,11 +46,11 @@ const Navbar = () => {
         : (<button onClick={() => { window.location.replace('http://localhost:3001/auth/google') }} className="button google-btn">Signin with Google+</button>)
 
     const links = isLoggedIn
-        ? (<><Link to="/" className="navbar-item">Home</Link>
-            <Link to="/dashboard" className="navbar-item">Dashboard</Link>
-            <Link to="/chat" className="navbar-item">Chat</Link>
-            <Link to="/map" className="navbar-item">Map</Link>
-            <Link to="/twitter" className="navbar-item">Social</Link>
+        ? (<>
+            <NavLink to="/dashboard" className="navbar-item" activeClassName="activeLink">Dashboard</NavLink>
+            <NavLink to="/chat" className="navbar-item" activeClassName="activeLink">Chat</NavLink>
+            <NavLink to="/map" className="navbar-item" activeClassName="activeLink">Map</NavLink>
+            <NavLink to="/twitter" className="navbar-item" activeClassName="activeLink">Social</NavLink>
         </>)
         : (<p className="navbar-note">The goodies doesn't come for free, <strong>Sign In</strong> first</p>)
 
