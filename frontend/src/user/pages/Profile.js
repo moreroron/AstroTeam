@@ -10,7 +10,7 @@ const Profile = () => {
 
     useEffect(() => {
         setCountry(profile.country);
-    }, []);
+    }, [profile.country]);
 
     const handleSubmit = (e) => {
         e.preventDefault();

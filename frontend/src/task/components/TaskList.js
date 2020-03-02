@@ -1,7 +1,6 @@
 import React from 'react';
 import TaskItem from './TaskItem';
 import './TaskList.scss';
-import { Link } from 'react-router-dom';
 
 const TaskList = (props) => {
 

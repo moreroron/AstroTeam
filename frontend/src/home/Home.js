@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import UserContext from '../UserContext';
-import { Link } from 'react-router-dom';
 import './Home.scss';
 
 const Home = () => {

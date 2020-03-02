@@ -34,9 +34,9 @@ const Navbar = () => {
                             Your Team
                         </Link>
                         <hr className="dropdown-divider" />
-                        <a href="#" className="dropdown-item">
+                        <Link to="" className="dropdown-item">
                             <button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

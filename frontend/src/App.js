@@ -47,7 +47,7 @@ function App() {
     axios.get(`http://localhost:3001/users/${userId}`).then(res => {
       setUser({
         isLoggedIn: auth,
-        profile: res.data[0]
+        profile: res.data
       });
     });
   }

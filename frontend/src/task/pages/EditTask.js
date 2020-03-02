@@ -59,14 +59,14 @@ class EditTask extends Component {
 
     handleDeleteTask = async (e) => {
         const { user, task } = this.state
+
         // delete task from tasks
         const { data } = await axios.delete(`http://localhost:3001/lists/${task._listId}/tasks/${task._id}`);
-        // delete task from user's tasks
-        const updatedUserTasks = user.tasks.filter(t => t._id !== task._id);
-        console.log(updatedUserTasks);
-        const res = await axios.patch(`http://localhost:3001/users/${user._id}`, { tasks: [] });
-        console.log(res.data.tasks);
-        this.context.updateProfile(res.data);
+
+        // get specific user's task (task's author) and push it to context
+        // ...
+        this.context.updateProfile(data);
+        console.log(data);
         this.props.history.push('/dashboard');
     }
 

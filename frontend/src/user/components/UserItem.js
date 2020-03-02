@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 
 const UserItem = (props) => {
     const { user } = props;
@@ -11,7 +10,7 @@ const UserItem = (props) => {
                     <div className="media">
                         <div className="media-left">
                             <figure className="image is-48x48">
-                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
+                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="placeholder" />
                             </figure>
                         </div>
                         <div className="media-content">

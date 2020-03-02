@@ -27,7 +27,6 @@ const CreateTask = (props) => {
             authorId: profile._id
         }
         // adding new task
-        const updatedUser = {};
         axios.post(`http://localhost:3001/lists/${listId}/tasks`, newTask)
             // updating user's tasks with the new task
             .then(
@@ -35,7 +34,7 @@ const CreateTask = (props) => {
                     const updatedTask = res.data;
                     axios.get(`http://localhost:3001/users/${profile._id}`)
                         .then(res => {
-                            axios.patch(`http://localhost:3001/users/${profile._id}`, { tasks: [...res.data[0].tasks, updatedTask] })
+                            axios.patch(`http://localhost:3001/users/${profile._id}`, { tasks: [...res.data.tasks, updatedTask] })
                                 .then(res => {
                                     updateProfile(res.data);
                                 })

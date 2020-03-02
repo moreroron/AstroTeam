@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import TaskList from '../components/TaskList';
-import NewList from './NewList';
 import './Dashboard.scss';
 import axios from 'axios';
 import SearchTask from '../components/SearchTask';
@@ -47,7 +45,7 @@ class Dashboard extends Component {
 
         // this.handleUser();
 
-        const { lists, tasks } = this.state;
+        const { lists } = this.state;
 
         const listLists = !lists.length ? (<div>No lists added</div>) : (
             lists.map(list => {
