@@ -68,7 +68,15 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
     Task.findOne({
         _id: req.params.taskId,
         _listId: req.params.listId,
-    }).then(task => res.send(task));
+    })
+        .populate('author')
+        .exec((err, task) => {
+            if (err) return handleError(err);
+            // console.log('The author is %s', task.author.username);
+            // prints "The author is Ian Fleming"
+            res.send(task);
+        });
+    // .then(task => res.send(task));
 });
 
 // POST /lists/:listId/tasks
@@ -76,9 +84,9 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
 router.post('/:listId/tasks', (req, res) => {
     // we want to create a new task in a list specified by listId
     let newTask = new Task({
+        author: req.body.author,
         title: req.body.title,
         status: req.body.status,
-        authorId: req.body.authorId,
         _listId: req.params.listId,
         date: new Date(),
     });
@@ -105,19 +113,10 @@ router.patch('/:listId/tasks/:taskId', (req, res) => {
 // DELETE /lists/:listId/tasks/:taskId
 // purpose: delete an existing task + update user tasks
 router.delete('/:listId/tasks/:taskId', (req, res) => {
-    // remove task doc
     Task.findOneAndRemove({
         _id: req.params.taskId,
         _listId: req.params.listId
-    })
-        // delete task from user
-        .then(removedTaskDoc => {
-            // console.log("the deleted task: ", removedTaskDoc);
-            User.update({ "_id": removedTaskDoc.authorId }, { $pull: { tasks: { status: "open" } } });
-
-            //User.update({}, { '$pull': { 'tasks': { 'status': "open" } } }, { multi: true })
-        })
-        .then((updatedUser) => res.send(updatedUser))
+    }).then((updatedUser) => res.send(updatedUser))
 });
 
 module.exports = router;

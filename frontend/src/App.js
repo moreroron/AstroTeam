@@ -12,7 +12,7 @@ import UserContext from './UserContext';
 import axios from 'axios';
 import Chart from './utils/Chart';
 import Profile from './user/pages/Profile';
-import Users from './user/pages/Users';
+import SearchUser from './user/pages/SearchUser';
 // scss
 import './index.scss';
 import MapContainer from './map/MapContainer';
@@ -70,7 +70,7 @@ function App() {
         <Route path='/twitter' component={Twitter} />
         <Route path='/profile' component={Profile} />
         <Route path='/chat' component={Chat} />
-        <Route path='/users' component={Users} />
+        <Route path='/users' component={SearchUser} />
         <Redirect to="/" />
       </Switch>
     )

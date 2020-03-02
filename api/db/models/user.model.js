@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: "israel"
     },
-    tasks: []
+    tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]
 })
 
 module.exports = mongoose.model('User', UserSchema)

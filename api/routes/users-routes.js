@@ -3,10 +3,22 @@ const router = express.Router();
 const passportSetup = require('../auth/passport-setup');
 const { mongoose } = require('../db/mongoose');
 const User = require('../db/models/user.model');
+const Task = require('../db/models/task.model');
 
 router.get('/:userId', (req, res) => {
     User.findOne({ _id: req.params.userId })
-        .then(user => res.send(user));
+        .populate('tasks')
+        .exec((err, user) => {
+            if (err) res.send(err);
+            // console.log('The author is %s', task.author.username);
+            // prints "The author is Ian Fleming"
+            res.send(user);
+        });
+});
+
+router.get('/:userId/tasks', (req, res) => {
+    Task.find({ author: req.params.userId })
+        .then(tasks => res.send(tasks));
 });
 
 router.get('/', (req, res) => {

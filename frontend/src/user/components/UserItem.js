@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const UserItem = (props) => {
     const { user } = props;
+
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        getTasks();
+    }, [])
+
+    const getTasks = async () => {
+        const { data } = await axios.get(`http://localhost:3001/users/${user._id}/tasks`);
+        setTasks(data);
+    }
 
     return (
         <div className="column">
@@ -20,7 +32,7 @@ const UserItem = (props) => {
                     </div>
 
                     <div className="content">
-                        <p className="">Tasks Opened: {user.tasks.length}</p>
+                        <p className="">Tasks Opened: {tasks.length}</p>
                     </div>
                 </div>
             </div>

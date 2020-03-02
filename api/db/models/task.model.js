@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const TaskSchema = new mongoose.Schema({
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     title: {
         type: String,
         required: true,
@@ -13,7 +14,6 @@ const TaskSchema = new mongoose.Schema({
     },
     status: String, // Bug, Open, Closed
     date: Date,
-    authorId: String
 })
 
 module.exports = mongoose.model('Task', TaskSchema)

@@ -38,10 +38,6 @@ class EditTask extends Component {
             title: this.state.task.title,
             status: this.state.task.status
         });
-        // update user's task
-        const updatedTasks = this.state.user.tasks.map(task => (task._id === this.state.task._id) ? this.state.task : task);
-        const res = await axios.patch(`http://localhost:3001/users/${this.state.user._id}`, { tasks: updatedTasks });
-        this.context.updateProfile(res.data);
         this.props.history.push('/dashboard');
     }
 
@@ -58,26 +54,15 @@ class EditTask extends Component {
     }
 
     handleDeleteTask = async (e) => {
-        const { user, task } = this.state
-
-        // delete task from tasks
+        const { task } = this.state
         const { data } = await axios.delete(`http://localhost:3001/lists/${task._listId}/tasks/${task._id}`);
-
-        // get specific user's task (task's author) and push it to context
-        // ...
-        this.context.updateProfile(data);
-        console.log(data);
         this.props.history.push('/dashboard');
     }
 
     render() {
-
         const { listId, taskId } = this.props.match.params;
-
         return (
-
             <div className="centered-content">
-
                 <div className="modal-box">
 
                     <h1 className="title">Edit the task</h1>

@@ -3,7 +3,7 @@ import UserList from '../components/UserList';
 import axios from 'axios';
 import './User.scss';
 
-const Users = () => {
+const SearchUser = () => {
 
     const [users, setUsers] = useState([]);
 
@@ -41,4 +41,4 @@ const Users = () => {
     )
 }
 
-export default Users
+export default SearchUser

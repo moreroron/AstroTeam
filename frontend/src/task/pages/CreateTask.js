@@ -19,33 +19,15 @@ const CreateTask = (props) => {
         setStatus(e.target.value);
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newTask = {
+        const { data } = await axios.post(`http://localhost:3001/lists/${listId}/tasks`, {
+            author: profile._id,
             title: title,
             status: status,
-            authorId: profile._id
-        }
-        // adding new task
-        axios.post(`http://localhost:3001/lists/${listId}/tasks`, newTask)
-            // updating user's tasks with the new task
-            .then(
-                res => {
-                    const updatedTask = res.data;
-                    axios.get(`http://localhost:3001/users/${profile._id}`)
-                        .then(res => {
-                            axios.patch(`http://localhost:3001/users/${profile._id}`, { tasks: [...res.data.tasks, updatedTask] })
-                                .then(res => {
-                                    updateProfile(res.data);
-                                })
-                        })
-                }
-            )
-            .then(
-                // axios.patch(`http://localhost:3001/users/${profile._id}`, { tasks: [...profile.tasks, newTask] })
-                //     .then(res => updateProfile(res.data))
-            ).then(
-                props.history.push('/dashboard'));
+        });
+        console.log(profile._id);
+        props.history.push('/dashboard');
     }
 
     return (

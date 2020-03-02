@@ -5,6 +5,7 @@ const cors = require('cors')
 const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/users-routes');
 const listsRoutes = require('./routes/lists-routes');
+const tasksRoutes = require('./routes/tasks-routes');
 
 const passportSetup = require('./auth/passport-setup');
 const cookieSession = require('cookie-session');
@@ -39,6 +40,7 @@ app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/lists', listsRoutes);
+app.use('/tasks', tasksRoutes);
 
 // ********************************
 // ROUTES
