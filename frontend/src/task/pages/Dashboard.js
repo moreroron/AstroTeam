@@ -43,8 +43,6 @@ class Dashboard extends Component {
 
     render() {
 
-        // this.handleUser();
-
         const { lists } = this.state;
 
         const listLists = !lists.length ? (<div>No lists added</div>) : (

@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import TaskList from './TaskList';
+import moment from 'moment';
+
+// date picker
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import { DateRange } from 'react-date-range';
 
 const SearchTask = (props) => {
 
     const [tasks, setTasks] = useState([]);
     const [status, setStatus] = useState("all");
     const [date, setDate] = useState();
+    const [calToggle, setCalToggle] = useState("");
+    const [cal, setCal] = useState([
+        {
+            startDate: new Date(),
+            endDate: null,
+            key: 'selection',
+        }
+    ]);
 
     useEffect(() => {
         const reverseOrder = props.tasks.sort((a, b) => {
@@ -38,6 +52,21 @@ const SearchTask = (props) => {
         });
         setDate(e.target.value);
         setTasks(filteredTasks);
+    }
+
+    const handleCal = (item) => {
+        setCal([item.selection]);
+        const start = item.selection.startDate;
+        const end = item.selection.endDate;
+        const filteredTasks = props.tasks.filter(task => {
+            return moment(task.deadline).isBetween(start, end);
+        });
+        setTasks([...filteredTasks]);
+    }
+
+    const handleCalToggle = () => {
+        if (!calToggle) setCalToggle("is-active");
+        else setCalToggle("");
     }
 
     return (
@@ -77,10 +106,35 @@ const SearchTask = (props) => {
                             </select>
                         </div>
                     </div>
+
+                    <div className="column is-narrow">
+                        <label className="label">By Deadline</label>
+                        <div className={calToggle + " dropdown is-right"}>
+                            <div className="dropdown-trigger">
+                                <button onClick={handleCalToggle} className="button" aria-haspopup="true" aria-controls="dropdown-menu6">
+                                    <span>Pick Dates</span>
+                                    <span className="icon is-small">
+                                        <i className="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div className="dropdown-menu" id="dropdown-menu6" role="menu">
+                                <div className="dropdown-content">
+                                    <div className="dropdown-item">
+                                        <DateRange
+                                            editableDateInputs={false}
+                                            onChange={handleCal}
+                                            moveRangeOnFirstSelection={false}
+                                            ranges={cal}
+                                            minDate={new Date()}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
             <TaskList tasks={tasks} />
         </>
     )

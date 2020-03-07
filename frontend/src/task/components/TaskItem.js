@@ -21,11 +21,17 @@ const TaskItem = (props) => {
                     </div>
                 </div>
                 <div className="level-right">
+
                     <div className="level-item">
-                        <h3 className="time">{moment(task.date).calendar()}</h3>
+                        <div className="has-text-right">
+                            <div className="tags has-addons rightside-tags">
+                                <span className="tag rightside-tags">deadline:</span>
+                                <span className="tag is-warning rightside-tags">{moment(task.deadline).calendar()}</span>
+                            </div>
+                            <span className="is-size-7 has-text-grey-light">{moment(task.date).calendar()}</span>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </Link>
     )
