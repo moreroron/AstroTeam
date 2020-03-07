@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const List = require('../db/models/list.model');
 const Task = require('../db/models/task.model');
+const moment = require('moment');
 
 // GET /lists
 // purpose: get all lists
@@ -72,23 +73,22 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
         .populate('author')
         .exec((err, task) => {
             if (err) return handleError(err);
-            // console.log('The author is %s', task.author.username);
-            // prints "The author is Ian Fleming"
             res.send(task);
         });
-    // .then(task => res.send(task));
 });
 
 // POST /lists/:listId/tasks
 // purpose: create a new task in a specific list
 router.post('/:listId/tasks', (req, res) => {
-    // we want to create a new task in a list specified by listId
+
     let newTask = new Task({
         author: req.body.author,
         title: req.body.title,
         status: req.body.status,
         _listId: req.params.listId,
         date: new Date(),
+        deadline: req.body.deadline,
+        team: req.body.team
     });
     newTask.save().then(newTaskDoc => {
         res.send(newTaskDoc);

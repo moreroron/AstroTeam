@@ -14,6 +14,11 @@ const TaskSchema = new mongoose.Schema({
     },
     status: String, // Bug, Open, Closed
     date: Date,
+    deadline: {
+        type: Date,
+        required: true
+    },
+    team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
 })
 
 module.exports = mongoose.model('Task', TaskSchema)

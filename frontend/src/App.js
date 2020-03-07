@@ -18,6 +18,7 @@ import './index.scss';
 import MapContainer from './map/MapContainer';
 import Twitter from './utils/Twitter';
 import Chat from './utils/Chat';
+import CreateTeam from './team/pages/CreateTeam';
 
 function App() {
 
@@ -70,7 +71,8 @@ function App() {
         <Route path='/twitter' component={Twitter} />
         <Route path='/profile' component={Profile} />
         <Route path='/chat' component={Chat} />
-        <Route path='/users' component={SearchUser} />
+        <Route exact path='/teams/create-team' component={CreateTeam} />
+        <Route exact path='/users' component={SearchUser} />
         <Redirect to="/" />
       </Switch>
     )

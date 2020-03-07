@@ -10,8 +10,6 @@ router.get('/:userId', (req, res) => {
         .populate('tasks')
         .exec((err, user) => {
             if (err) res.send(err);
-            // console.log('The author is %s', task.author.username);
-            // prints "The author is Ian Fleming"
             res.send(user);
         });
 });

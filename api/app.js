@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/users-routes');
 const listsRoutes = require('./routes/lists-routes');
 const tasksRoutes = require('./routes/tasks-routes');
+const teamRoutes = require('./routes/teams-routes');
 
 const passportSetup = require('./auth/passport-setup');
 const cookieSession = require('cookie-session');
@@ -41,6 +42,7 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/lists', listsRoutes);
 app.use('/tasks', tasksRoutes);
+app.use('/teams', teamRoutes);
 
 // ********************************
 // ROUTES
