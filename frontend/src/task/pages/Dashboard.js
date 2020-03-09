@@ -80,7 +80,7 @@ class Dashboard extends Component {
                         <div className="level">
                             <div className="level-left">
                                 <div className="level-item">
-                                    <h1 className="title has-text-link">Scheduling ({this.state.tasks.length})</h1>
+                                    <h1 className="title has-text-link">Tasks ({this.state.tasks.length})</h1>
                                 </div>
                             </div>
                             <div className="level-right">

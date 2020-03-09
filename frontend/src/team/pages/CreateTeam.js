@@ -18,6 +18,7 @@ class CreateTeam extends Component {
 
     handleSelectUsers = (e) => {
         const options = Array.from(e.target.options).filter(option => option.selected);
+        console.log(options);
         options.forEach(option => {
             this.setState({ selectedUsers: [...this.state.selectedUsers, option.value] });
         });
@@ -50,7 +51,7 @@ class CreateTeam extends Component {
                             <input onChange={this.handleTitle} className="input" type="input" placeholder="choose a name" />
                         </div>
                         <div className="field">
-                            <div className="label">Assimble The Team</div>
+                            <div className="label">Add members</div>
                             <div className="select is-multiple">
                                 <select multiple size={this.state.users.length} onChange={this.handleSelectUsers} value={this.userSelection}>
                                     {allUsersOptions}

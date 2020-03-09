@@ -15,7 +15,7 @@ const UserList = (props) => {
     )
 
     return (
-        <div className="columns">{usersList}</div>
+        <div>{usersList}</div>
     )
 }
 

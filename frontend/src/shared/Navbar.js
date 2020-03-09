@@ -29,14 +29,14 @@ const Navbar = () => {
                                 <span className="icon is-medium">
                                     <i className="fas fa-lg fa-user-astronaut"></i>
                                 </span>
-                                Profile
-                        </Link>
+                                <span className="m-l-sm">Profile</span>
+                            </Link>
                             <Link to="/users" className="dropdown-item">
-                                <span className="icon is-medium m-r-2">
+                                <span className="icon is-medium">
                                     <i className="fas fa-lg fa-space-shuttle"></i>
                                 </span>
-                                Your Team
-                        </Link>
+                                <span className="m-l-sm">All Members</span>
+                            </Link>
                             <hr className="dropdown-divider" />
                             <Link to="" className="dropdown-item">
                                 <button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>

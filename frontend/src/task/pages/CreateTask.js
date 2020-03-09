@@ -23,10 +23,6 @@ const CreateTask = (props) => {
         axios.get('http://localhost:3001/teams').then(res => {
             const teams = res.data;
             console.log(teams);
-
-            // teams.filter(team => {
-            //     return Object.keys(team.task).length;
-            // });
             setTeams(res.data);
             if (res.data.length) {
                 setTeam(res.data[0]);
@@ -69,8 +65,10 @@ const CreateTask = (props) => {
         </div>
     )
 
-    const allTeamsOptions = teams.map(team =>
-        <option key={team._id} value={JSON.stringify(team)}>{team.title}</option>
+    const allTeamsOptions = teams.map(team => {
+        // the team is busy with another task
+        return <option disabled={team.task} key={team._id} value={JSON.stringify(team)}>{team.title}</option>
+    }
     );
 
     return (
@@ -93,8 +91,6 @@ const CreateTask = (props) => {
                     </div>
                     <div className="field">
                         <div className="label">Deadline</div>
-                        {/* <Calendar onChange={handleDate}
-                            date={null} /> */}
                         <input onChange={handleDate} className="input" type="date" />
 
                     </div>

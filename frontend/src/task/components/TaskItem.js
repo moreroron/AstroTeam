@@ -6,6 +6,7 @@ import moment from 'moment';
 const TaskItem = (props) => {
 
     const { task } = props
+    console.log(task);
 
     let tag;
     if (task.status === 'bug') tag = 'is-danger';
@@ -28,9 +29,14 @@ const TaskItem = (props) => {
                         <div className="has-text-right">
                             <div className="tags has-addons rightside-tags">
                                 <span className="tag rightside-tags">{task.team.title}</span>
-                                <span className="tag is-white rightside-tags">DL: {moment(task.deadline).calendar()}</span>
+                                <span className="tag is-white rightside-tags">
+                                    <div className="icon p-r-sm">
+                                        <i className="far fa-calendar-alt"></i>
+                                    </div>
+                                    {moment(task.deadline).calendar()}
+                                </span>
                             </div>
-                            <span className="is-size-7 has-text-grey-light">{moment(task.date).calendar()}</span>
+                            <span className="is-size-7 has-text-grey-light">published {moment(task.date).calendar()}</span>
                         </div>
                     </div>
                 </div>

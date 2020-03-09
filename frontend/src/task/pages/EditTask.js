@@ -9,7 +9,7 @@ class EditTask extends Component {
         super(props);
         this.state = {
             user: {},
-            task: { title: "", status: "" }
+            task: { team: { title: "" } }
         }
     }
 
@@ -71,15 +71,20 @@ class EditTask extends Component {
                             <div className="label">Title</div>
                             <input onChange={this.handleChange} id="title" className="input" type="text" value={this.state.task.title} />
                         </div>
-                        <div className="label">Status</div>
-                        <div className="select">
-                            <select value={this.state.task.status} onChange={this.handleStatusChange}>
-                                <option value="open">Open</option>
-                                <option value="bug">Bug</option>
-                                <option value="closed">Closed</option>
-                            </select>
+                        <div className="field">
+                            <div className="label">Status</div>
+                            <div className="select">
+                                <select value={this.state.task.status} onChange={this.handleStatusChange}>
+                                    <option value="open">Open</option>
+                                    <option value="bug">Bug</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
                         </div>
-
+                        <div className="field">
+                            <div className="label">Team</div>
+                            <input className="input" type="text" disabled value={this.state.task.team.title} />
+                        </div>
                         <div className="field buttons is-right">
                             <input type="submit" className="button is-link" placeholder="Add" />
                             <button onClick={this.handleDeleteTask} className="button is-danger">Delete</button>

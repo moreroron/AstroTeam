@@ -87,6 +87,7 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
 // POST /lists/:listId/tasks
 // purpose: create a new task in a specific list
 router.post('/:listId/tasks', (req, res) => {
+    console.log("new task: ", req.body.team);
     let newTask = new Task({
         author: req.body.author,
         title: req.body.title,
@@ -97,6 +98,7 @@ router.post('/:listId/tasks', (req, res) => {
         team: req.body.team
     });
 
+    // update new task for team
     Team.findOneAndUpdate({ _id: req.body.team._id }, { task: newTask })
         .then(newTask.save()).then(newTask => res.send(newTask));
 });
@@ -119,10 +121,18 @@ router.patch('/:listId/tasks/:taskId', (req, res) => {
 // DELETE /lists/:listId/tasks/:taskId
 // purpose: delete an existing task + update user tasks
 router.delete('/:listId/tasks/:taskId', (req, res) => {
+
     Task.findOneAndRemove({
         _id: req.params.taskId,
         _listId: req.params.listId
-    }).then((updatedUser) => res.send(updatedUser))
+    })
+        .then(removedTask => {
+            res.send(removedTask);
+            console.log("removed Task: ", removedTask);
+            // delete task from the team
+            Team.findOneAndUpdate({ _id: removedTask.team._id }, { task: null })
+                .then(updatedTeam => console.log("updated Team: ", updatedTeam));
+        });
 });
 
 module.exports = router;
