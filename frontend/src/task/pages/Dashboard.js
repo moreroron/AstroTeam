@@ -28,6 +28,7 @@ class Dashboard extends Component {
 
     handleList = (listId) => {
         axios.get(`http://localhost:3001/lists/${listId}/tasks`).then(res => {
+            console.log(res.data);
             this.setState({
                 tasks: res.data,
                 currentListId: listId

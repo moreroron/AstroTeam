@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../../UserContext';
 import moment from 'moment';
+import { Calendar } from 'react-date-range';
 
 const CreateTask = (props) => {
 
@@ -20,6 +21,12 @@ const CreateTask = (props) => {
 
     useEffect(() => {
         axios.get('http://localhost:3001/teams').then(res => {
+            const teams = res.data;
+            console.log(teams);
+
+            // teams.filter(team => {
+            //     return Object.keys(team.task).length;
+            // });
             setTeams(res.data);
             if (res.data.length) {
                 setTeam(res.data[0]);
@@ -86,7 +93,10 @@ const CreateTask = (props) => {
                     </div>
                     <div className="field">
                         <div className="label">Deadline</div>
+                        {/* <Calendar onChange={handleDate}
+                            date={null} /> */}
                         <input onChange={handleDate} className="input" type="date" />
+
                     </div>
                     <div className="label">Status</div>
                     <div className="select">

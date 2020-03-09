@@ -4,6 +4,7 @@ import './TaskItem.scss';
 import moment from 'moment';
 
 const TaskItem = (props) => {
+
     const { task } = props
 
     let tag;
@@ -17,7 +18,8 @@ const TaskItem = (props) => {
                 <div className="level-left">
                     <div className="level-item">
                         <span className={tag + " tag m-r-md"}>{task.status}</span>
-                        {task.title}
+                        <span className="has-text-weight-bold">{task.title}</span>
+
                     </div>
                 </div>
                 <div className="level-right">
@@ -25,8 +27,8 @@ const TaskItem = (props) => {
                     <div className="level-item">
                         <div className="has-text-right">
                             <div className="tags has-addons rightside-tags">
-                                <span className="tag rightside-tags">deadline:</span>
-                                <span className="tag is-warning rightside-tags">{moment(task.deadline).calendar()}</span>
+                                <span className="tag rightside-tags">{task.team.title}</span>
+                                <span className="tag is-white rightside-tags">DL: {moment(task.deadline).calendar()}</span>
                             </div>
                             <span className="is-size-7 has-text-grey-light">{moment(task.date).calendar()}</span>
                         </div>

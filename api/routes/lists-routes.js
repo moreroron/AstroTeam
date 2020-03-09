@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const List = require('../db/models/list.model');
 const Task = require('../db/models/task.model');
+const Team = require('../db/models/team-model');
 const moment = require('moment');
 
 // GET /lists
@@ -31,7 +32,7 @@ router.post('/', async (req, res) => {
     try {
         const savedList = await list.save();
         res.json(savedList);
-    } catch {
+    } catch (err) {
         res.json({ message: err });
     }
 });
@@ -49,7 +50,7 @@ router.patch('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     // we want to delete the specified list
     List.findOneAndRemove({ _id: req.params.id }).then(removedListDoc => {
-        Task.remove({ _listId: req.params.id })
+        Task.deleteMany({ _listId: req.params.id })
             .then(res.send(removedListDoc));
     });
 });
@@ -59,7 +60,12 @@ router.delete('/:id', (req, res) => {
 router.get('/:listId/tasks', (req, res) => {
     // we want to return all tasks which belongs to a specific list
     Task.find({ _listId: req.params.listId })
-        .then(tasks => res.send(tasks));
+        .populate('author')
+        .populate('team')
+        .exec((err, task) => {
+            if (err) return handleError(err);
+            res.send(task);
+        });
 });
 
 // GET /lists/:listId/tasks/taskId
@@ -71,6 +77,7 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
         _listId: req.params.listId,
     })
         .populate('author')
+        .populate('team')
         .exec((err, task) => {
             if (err) return handleError(err);
             res.send(task);
@@ -80,7 +87,6 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
 // POST /lists/:listId/tasks
 // purpose: create a new task in a specific list
 router.post('/:listId/tasks', (req, res) => {
-
     let newTask = new Task({
         author: req.body.author,
         title: req.body.title,
@@ -90,9 +96,9 @@ router.post('/:listId/tasks', (req, res) => {
         deadline: req.body.deadline,
         team: req.body.team
     });
-    newTask.save().then(newTaskDoc => {
-        res.send(newTaskDoc);
-    });
+
+    Team.findOneAndUpdate({ _id: req.body.team._id }, { task: newTask })
+        .then(newTask.save()).then(newTask => res.send(newTask));
 });
 
 // PATCH /lists/:listId/tasks/:taskId

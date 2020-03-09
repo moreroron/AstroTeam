@@ -12,6 +12,6 @@ mongoose.connect('mongodb://localhost:27017/TaskManager', { useNewUrlParser: tru
 
 // ** Use index.js file to store all mongoose schemas **
 mongoose.set('useCreateIndex', true);
-mongoose.set('useFindAndModify', true);
+mongoose.set('useFindAndModify', false);
 
 module.exports = { mongoose };

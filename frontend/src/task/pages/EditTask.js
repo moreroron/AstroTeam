@@ -68,8 +68,10 @@ class EditTask extends Component {
                     <h1 className="title">Edit the task</h1>
                     <form onSubmit={e => this.handleSubmit(e, listId, taskId)}>
                         <div className="field">
+                            <div className="label">Title</div>
                             <input onChange={this.handleChange} id="title" className="input" type="text" value={this.state.task.title} />
                         </div>
+                        <div className="label">Status</div>
                         <div className="select">
                             <select value={this.state.task.status} onChange={this.handleStatusChange}>
                                 <option value="open">Open</option>
