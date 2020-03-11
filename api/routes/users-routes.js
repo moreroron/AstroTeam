@@ -20,9 +20,12 @@ router.get('/:userId/tasks', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    User.find({}).then((users) => {
-        res.send(users);
-    })
+    User.find({})
+        .populate('tasks')
+        .exec((err, users) => {
+            if (err) res.send(err);
+            res.send(users)
+        })
 });
 
 router.patch('/:userId', async (req, res) => {

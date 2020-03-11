@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const TaskSchema = new mongoose.Schema({
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     title: {
         type: String,
         required: true,
@@ -18,7 +17,15 @@ const TaskSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' }
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    team: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Team'
+    }
 })
 
-module.exports = mongoose.model('Task', TaskSchema)
+const Task = mongoose.model('Task', TaskSchema, 'tasks');
+module.exports = Task
