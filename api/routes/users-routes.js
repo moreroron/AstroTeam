@@ -5,20 +5,7 @@ const { mongoose } = require('../db/mongoose');
 const User = require('../db/models/user.model');
 const Task = require('../db/models/task.model');
 
-router.get('/:userId', (req, res) => {
-    User.findOne({ _id: req.params.userId })
-        .populate('tasks')
-        .exec((err, user) => {
-            if (err) res.send(err);
-            res.send(user);
-        });
-});
-
-router.get('/:userId/tasks', (req, res) => {
-    Task.find({ author: req.params.userId })
-        .then(tasks => res.send(tasks));
-});
-
+// get all users
 router.get('/', (req, res) => {
     User.find({})
         .populate('tasks')
@@ -28,6 +15,17 @@ router.get('/', (req, res) => {
         })
 });
 
+// get a specific user
+router.get('/:userId', (req, res) => {
+    User.findOne({ _id: req.params.userId })
+        .populate('tasks')
+        .exec((err, user) => {
+            if (err) res.send(err);
+            res.send(user);
+        });
+});
+
+// patch a specific user
 router.patch('/:userId', async (req, res) => {
     try {
         const updatedUser = await User.updateOne(
@@ -38,6 +36,12 @@ router.patch('/:userId', async (req, res) => {
     } catch (err) {
         res.send({ message: err })
     }
+});
+
+// get all tasks of a specific user
+router.get('/:userId/tasks', (req, res) => {
+    Task.find({ author: req.params.userId })
+        .then(tasks => res.send(tasks));
 });
 
 module.exports = router;
