@@ -9,7 +9,11 @@ class EditTask extends Component {
         super(props);
         this.state = {
             user: {},
-            task: { team: { title: "" } }
+            task: {
+                team: { title: "" },
+                title: "",
+                status: ""
+            }
         }
     }
 

@@ -3,7 +3,7 @@ import UserContext from '../../UserContext';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Profile = () => {
+const Profile = (props) => {
 
     const { profile, updateProfile } = useContext(UserContext);
     const [country, setCountry] = useState("israel");
@@ -14,9 +14,9 @@ const Profile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         axios.patch(`http://localhost:3001/users/${profile._id}`, { country: country })
             .then(updateProfile({ ...profile, country: country }))
+            .then(props.history.push('/dashboard'));
     }
 
     return (

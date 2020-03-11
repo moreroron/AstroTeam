@@ -16,9 +16,9 @@ router.get('/', (req, res) => {
 
 // GET /lists/:listId
 // purpose: get a specific list
-router.get('/:listId', (req, res) => {
-    List.find({ _id: req.params.listId })
-        .then(list => res.send(list));
+router.get('/:listId', async (req, res) => {
+    const list = await List.find({ _id: req.params.listId });
+    res.send(list);
 })
 
 // POST /lists
@@ -47,12 +47,16 @@ router.patch('/:id', (req, res) => {
 
 // DELETE /lists/:id
 // purpose: delete a specified list
-router.delete('/:id', (req, res) => {
-    // we want to delete the specified list
-    List.findOneAndRemove({ _id: req.params.id }).then(removedListDoc => {
-        Task.deleteMany({ _listId: req.params.id })
-            .then(res.send(removedListDoc));
-    });
+router.delete('/:id', async (req, res) => {
+    const deletedList = await List.findOneAndRemove({ _id: req.params.id });
+    const tasks = await Task.find({ _listId: req.params.id });
+    tasks.forEach(task => {
+        console.log(task.team);
+        Team.updateOne({ _id: task.team }, { task: null })
+    })
+    // const updatedTeams = await Team.updateMany({ _id: tasks.team._id }, { task: null });
+    const deletedTasks = await Task.deleteMany({ _listId: req.params.id });
+    res.send(deletedList);
 });
 
 // GET /lists/:listId/tasks
@@ -86,9 +90,8 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
 
 // POST /lists/:listId/tasks
 // purpose: create a new task in a specific list
-router.post('/:listId/tasks', (req, res) => {
-    console.log("new task: ", req.body.team);
-    let newTask = new Task({
+router.post('/:listId/tasks', async (req, res) => {
+    const task = new Task({
         author: req.body.author,
         title: req.body.title,
         status: req.body.status,
@@ -97,10 +100,10 @@ router.post('/:listId/tasks', (req, res) => {
         deadline: req.body.deadline,
         team: req.body.team
     });
-
+    const newTaskDoc = await task.save();
     // update new task for team
-    Team.findOneAndUpdate({ _id: req.body.team._id }, { task: newTask })
-        .then(newTask.save()).then(newTask => res.send(newTask));
+    const updatedTeam = await Team.findOneAndUpdate({ _id: req.body.team._id }, { task: newTaskDoc });
+    res.send(newTaskDoc);
 });
 
 // PATCH /lists/:listId/tasks/:taskId
@@ -120,19 +123,10 @@ router.patch('/:listId/tasks/:taskId', (req, res) => {
 
 // DELETE /lists/:listId/tasks/:taskId
 // purpose: delete an existing task + update user tasks
-router.delete('/:listId/tasks/:taskId', (req, res) => {
-
-    Task.findOneAndRemove({
-        _id: req.params.taskId,
-        _listId: req.params.listId
-    })
-        .then(removedTask => {
-            res.send(removedTask);
-            console.log("removed Task: ", removedTask);
-            // delete task from the team
-            Team.findOneAndUpdate({ _id: removedTask.team._id }, { task: null })
-                .then(updatedTeam => console.log("updated Team: ", updatedTeam));
-        });
+router.delete('/:listId/tasks/:taskId', async (req, res) => {
+    const deletedTask = await Task.findOneAndRemove({ _id: req.params.taskId, _listId: req.params.listId });
+    const updatedTeam = await Team.findOneAndUpdate({ _id: deletedTask.team._id }, { task: null });
+    res.send(deletedTask);
 });
 
 module.exports = router;

@@ -24,10 +24,10 @@ const CreateTask = (props) => {
             const teams = res.data;
             console.log(teams);
             setTeams(res.data);
-            if (res.data.length) {
-                setTeam(res.data[0]);
-                inputRef.current.focus();
-            }
+            // if (res.data.length) {
+            //     setTeam(res.data[0]);
+            //     inputRef.current.focus();
+            // }
         })
 
     }, []);
@@ -39,6 +39,7 @@ const CreateTask = (props) => {
     }
 
     const handleTeam = (e) => {
+        console.log(JSON.parse(e.target.value));
         setTeam(JSON.parse(e.target.value));
     }
 
@@ -85,6 +86,7 @@ const CreateTask = (props) => {
                         <div className="label">Team</div>
                         <div className="select">
                             <select onChange={handleTeam}>
+                                <option value="" defaultValue >Choose here</option>
                                 {allTeamsOptions}
                             </select>
                         </div>
