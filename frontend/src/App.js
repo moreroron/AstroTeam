@@ -40,7 +40,14 @@ function App() {
 
   useEffect(() => {
     axios.get('http://localhost:3001/', { withCredentials: true }).then(res => {
-      getAuthUser(res.data.user, res.data.authenticated);
+      // user is authenticated
+      if (res.data.authenticated)
+        getAuthUser(res.data.user, res.data.authenticated);
+      // user is not
+      else setUser({
+        isLoggedIn: false,
+        profile: {}
+      });
     });
   }, []);
 
