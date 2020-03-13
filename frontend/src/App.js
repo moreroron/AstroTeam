@@ -10,7 +10,6 @@ import EditList from './task/pages/EditList';
 import CreateTask from './task/pages/CreateTask';
 import UserContext from './UserContext';
 import axios from 'axios';
-import Chart from './utils/Chart';
 import Profile from './user/pages/Profile';
 import SearchUser from './user/pages/SearchUser';
 // scss
@@ -75,7 +74,6 @@ function App() {
         <Route exact path='/create-task/:listId' component={CreateTask} />
         <Route exact path='/dashboard/:listId/tasks/:taskId' component={EditTask} />
         <Route path='/map' component={MapContainer} />
-        <Route path='/chart' component={Chart} />
         <Route path='/twitter' component={Twitter} />
         <Route path='/profile' component={Profile} />
         <Route path='/chat' component={Chat} />

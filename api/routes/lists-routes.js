@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 // GET /lists/:listId
 // purpose: get a specific list
 router.get('/:listId', async (req, res) => {
-    const list = await List.find({ _id: req.params.listId });
+    const list = await List.findOne({ _id: req.params.listId });
     res.send(list);
 })
 

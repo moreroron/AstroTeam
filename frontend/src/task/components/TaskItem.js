@@ -6,8 +6,6 @@ import moment from 'moment';
 const TaskItem = (props) => {
 
     const { task } = props
-    console.log(task);
-
     let tag;
     if (task.status === 'bug') tag = 'is-danger';
     if (task.status === 'open') tag = 'is-dark';

@@ -34,11 +34,7 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
-
-// Set custom global styles (will be applied to whole app)
-
 html {
-  // background: linear-gradient(to right top, $info, $info);
   background: aliceblue;
 }
 
@@ -71,8 +67,6 @@ body,
 .title {
   font-family: 'Lato';
   font-size: 24px;
-  // text-transform: uppercase;
-  // letter-spacing: 2px;
 }
 
 .title-secondary {

@@ -4,17 +4,20 @@ import axios from 'axios';
 
 class EditList extends Component {
     state = {
-        title: ""
+        title: "",
+        tasks: [],
+        emptyList: true
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const { listId } = this.props.match.params;
-        axios.get(`http://localhost:3001/lists/${listId}`).then(res => {
-            this.setState({
-                title: res.data[0].title
-            })
-            console.log(res.data);
-        })
+        const list = await axios.get(`http://localhost:3001/lists/${listId}`);
+        const tasksOfList = await axios.get(`http://localhost:3001/lists/${listId}/tasks`);
+        this.setState({
+            title: list.data.title,
+            tasks: [...tasksOfList.data]
+        });
+        if (this.state.tasks.length) this.setState({ emptyList: false });
     }
 
     handleSubmit = (e, listId) => {
@@ -36,34 +39,43 @@ class EditList extends Component {
     }
 
     handleDeleteList = (listId) => {
-        axios.delete(`http://localhost:3001/lists/${listId}`).then(console.log('record deleted'));
+        if (this.state.emptyList) {
+            axios.delete(`http://localhost:3001/lists/${listId}`).then(console.log('record deleted'));
+        }
     }
 
     render() {
 
+        const boold = !this.state.emptyList ? (<p>You can't delete non empty list. delete tasks first.</p>) : ('');
+
+
         const { listId } = this.props.match.params;
 
         return (
-            <div className="box">
 
 
-                <div className="centered-content">
-                    <div className="modal-box">
-                        <h1 className="title">Edit List</h1>
-                        <form onSubmit={(e) => this.handleSubmit(e, listId)}>
-                            <div className="field">
-                                <input onChange={this.handleChange} id="title" className="input" type="text" placeholder={this.state.title} />
-                            </div>
 
-                            <div className="field buttons is-right">
-                                <input type="submit" className="button is-link" placeholder="Add" />
-                                <button onClick={() => this.handleDeleteList(listId)} className="button is-danger">Delete</button>
-                                <button className="button">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
+            <div className="centered-content">
+                <div className="modal-box">
+                    <h1 className="title">Edit List</h1>
+                    <form onSubmit={(e) => this.handleSubmit(e, listId)}>
+                        <div className="field">
+                            <input onChange={this.handleChange} id="title" className="input" type="text" placeholder={this.state.title} />
+                        </div>
+
+                        <div className="field">
+                            {boold}
+                        </div>
+
+                        <div className="field buttons is-right">
+                            <input type="submit" className="button is-link" placeholder="Add" />
+                            <button disabled={!this.state.emptyList} onClick={() => this.handleDeleteList(listId)} className="button is-danger">Delete</button>
+                            <button className="button">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+
         )
     }
 }

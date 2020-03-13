@@ -9,7 +9,10 @@ const NewList = (props) => {
 
     const inputRef = useRef();
 
-    useEffect(() => inputRef.current.focus(), []);
+    useEffect(() => {
+        inputRef.current.focus();
+    }
+        , []);
 
     const handleSubmit = (e) => {
         e.preventDefault();

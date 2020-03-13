@@ -13,14 +13,13 @@
         height: 100%;
         max-width: 1000px;
         min-height: 650px;
+        max-height: 3000px;
 
         .tasks-list-container {
             background: #e9f2f9;
         }
     }
 }
-
-
 
 .sidebar {
     display: flex;

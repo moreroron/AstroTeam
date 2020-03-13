@@ -13,22 +13,21 @@ class Dashboard extends Component {
         currentUser: null,
     }
 
-
-    componentDidMount() {
-        axios.get("http://localhost:3001/lists").then(res => {
-            this.setState({
-                lists: res.data,
-            });
-            // default 1st list with its tasks
-            if (this.state.lists.length) {
-                this.handleList(this.state.lists[0]._id);
-            }
+    async componentDidMount() {
+        const lists = await axios.get("http://localhost:3001/lists");
+        console.log(lists);
+        this.setState({
+            lists: [...lists.data],
         });
+        // default 1st list with its tasks
+        if (this.state.lists.length) {
+            this.handleList(this.state.lists[0]._id);
+        }
+        console.log(this.state.lists);
     }
 
     handleList = (listId) => {
         axios.get(`http://localhost:3001/lists/${listId}/tasks`).then(res => {
-            console.log(res.data);
             this.setState({
                 tasks: res.data,
                 currentListId: listId
