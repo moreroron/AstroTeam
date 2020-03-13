@@ -59,8 +59,16 @@ class CreateTeam extends Component {
                             </div>
                         </div>
                         <div className="field buttons is-right">
-                            <input type="submit" className="button is-link" placeholder="Create Team" />
-                            <Link to="/dashboard"><button className="button">Cancel</button></Link>
+                            <Link to="/dashboard">
+                                <button className="button">
+                                    <i className="fas fa-chevron-left m-r-sm"></i>
+                                    Back
+                            </button>
+                            </Link>
+                            <button type="submit" className="button is-link">
+                                <i className="fas fa-users m-r-sm"></i>
+                                Add Team
+                        </button>
                         </div>
                     </form>
                 </div>

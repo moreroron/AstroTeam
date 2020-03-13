@@ -41,8 +41,16 @@ const Profile = (props) => {
                     </div>
 
                     <div className="field buttons is-right">
-                        <input type="submit" className="button is-link" value="Submit Changes" />
-                        <Link to="/dashboard"><button className="button">Cancel</button></Link>
+                        <Link to="/dashboard">
+                            <button className="button">
+                                <i className="fas fa-chevron-left m-r-sm"></i>
+                                Back
+                            </button>
+                        </Link>
+                        <button type="submit" className="button is-link">
+                            <i className="fas fa-save m-r-sm"></i>
+                            Submit Changes
+                        </button>
                     </div>
                 </form>
             </div>

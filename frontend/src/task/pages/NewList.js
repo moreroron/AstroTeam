@@ -30,8 +30,15 @@ const NewList = (props) => {
                     </div>
 
                     <div className="field buttons is-right">
-                        <input type="submit" className="button is-link" placeholder="Add" />
-                        <button className="button">Cancel</button>
+                        <button className="button">
+                            <i className="fas fa-chevron-left m-r-sm"></i>
+                            Back
+                            </button>
+                        <button type="submit" className="button is-link">
+                            <i className="fas fa-plus m-r-sm"></i>
+                            Add List
+                        </button>
+
                     </div>
                 </form>
             </div>

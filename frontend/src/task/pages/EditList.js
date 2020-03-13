@@ -68,9 +68,17 @@ class EditList extends Component {
                         </div>
 
                         <div className="field buttons is-right">
-                            <input type="submit" className="button is-link" placeholder="Add" />
+                            <button className="button">
+                                <i className="fas fa-chevron-left m-r-sm"></i>
+                                Back
+                            </button>
                             <button disabled={!this.state.emptyList} onClick={() => this.handleDeleteList(listId)} className="button is-danger">Delete</button>
-                            <button className="button">Cancel</button>
+                            <button type="submit" className="button is-link">
+                                <i className="fas fa-save m-r-sm"></i>
+                                Submit Changes
+                        </button>
+
+
                         </div>
                     </form>
                 </div>

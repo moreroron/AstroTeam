@@ -106,8 +106,16 @@ const CreateTask = (props) => {
 
 
                     <div className="field buttons is-right">
-                        <input type="submit" className="button is-link" placeholder="Add Task" />
-                        <Link to="/dashboard"><button className="button">Cancel</button></Link>
+                        <Link to="/dashboard">
+                            <button className="button">
+                                <i className="fas fa-chevron-left m-r-sm"></i>
+                                Back
+                            </button>
+                        </Link>
+                        <button type="submit" className="button is-link">
+                            <i className="fas fa-plus m-r-sm"></i>
+                            Add Task
+                        </button>
                     </div>
                 </form>
             </div>
