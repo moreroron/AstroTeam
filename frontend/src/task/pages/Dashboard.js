@@ -61,7 +61,7 @@ class Dashboard extends Component {
         )
 
         return (
-            <div className="centered-content">
+            <div className="dashboard-content">
                 <div className="task-manager-container">
 
                     {/* leftside - name of lists */}
@@ -69,7 +69,7 @@ class Dashboard extends Component {
                         <h1 className="title has-text-link">Lists ({lists.length})</h1>
                         <div className="list-menu">{listLists}</div>
                         <Link to="/new-list">
-                            <button className="button is-link has-text-white">+ New List</button>
+                            <button className="is-fullwidth button is-link has-text-white"><i className="fas fa-folder-plus m-r-sm"></i> New List</button>
                         </Link>
 
 
