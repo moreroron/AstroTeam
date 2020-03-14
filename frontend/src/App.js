@@ -18,7 +18,8 @@ import MapContainer from './map/MapContainer';
 import Twitter from './utils/Twitter';
 import Chat from './utils/Chat';
 import CreateTeam from './team/pages/CreateTeam';
-import Statistics from './utils/pages/Statistics';
+import About from './home/About';
+import Footer from './shared/Footer';
 
 function App() {
 
@@ -65,7 +66,7 @@ function App() {
   if (user.isLoggedIn) {
     routes = (
       <Switch>
-        <Route exact path='/' component={Home} />
+        <Route path='/about' component={About} />
         <Route exact path='/dashboard' component={Dashboard} />
         <Route exact path='/dashboard/:listId' component={Dashboard} />
         <Route exact path='/dashboard/:listId/tasks' component={Dashboard} />
@@ -73,13 +74,13 @@ function App() {
         <Route exact path='/edit-list/:listId' component={EditList} />
         <Route exact path='/create-task/:listId' component={CreateTask} />
         <Route exact path='/dashboard/:listId/tasks/:taskId' component={EditTask} />
-        <Route path='/map' component={MapContainer} />
-        <Route path='/twitter' component={Twitter} />
-        <Route path='/profile' component={Profile} />
-        <Route path='/chat' component={Chat} />
-        <Route path='/statistics' component={Statistics} />
+        <Route exact path='/map' component={MapContainer} />
+        <Route exact path='/twitter' component={Twitter} />
+        <Route exact path='/profile' component={Profile} />
+        <Route exact path='/chat' component={Chat} />
         <Route exact path='/teams/create-team' component={CreateTeam} />
         <Route exact path='/users' component={SearchUser} />
+        <Route exact path='/' component={Home} />
         <Redirect to="/" />
       </Switch>
     )
@@ -97,6 +98,7 @@ function App() {
         <div className="bg">
           <Navbar />
           {routes}
+          <Footer />
         </div>
       </BrowserRouter>
     </UserContext.Provider>

@@ -1,4 +1,5 @@
 // This is where we put global styles and change variable values
+$tabs-link-hover-color: #000000;
 @import '../node_modules/bulma/bulma.sass';
 @import './spaces.scss';
 // Import Fonts (Lato and Nunito)
@@ -20,13 +21,11 @@ $red-hover: #fc6a88;
 $light: #f8f8f8;
 $blue-bg: #e9f2f9;
 
-
-// Update Bulma's global variables
 $family-sans-serif: "Roboto",
 sans-serif;
+$font-secondary: 'Odibee Sans';
 $primary: $green;
 $link: $turquoise;
-$font-secondary: 'Odibee Sans';
 
 // Update some of Bulma's component variables
 
@@ -70,7 +69,7 @@ body,
 }
 
 .title-secondary {
-  font-family: 'Odibee Sans';
+  font-family: $font-secondary;
   text-transform: uppercase;
   letter-spacing: 1px;
 }

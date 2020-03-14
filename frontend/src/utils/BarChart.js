@@ -16,19 +16,16 @@ class BarChart extends Component {
             .filter(task => new Date(task.deadline).getMonth() === new Date().getMonth())
             .map(task => new Date(task.deadline).getDate())
             .sort();
-        console.log(allDeadlinesSorted);
 
         for (let i = 0; i < 31; i++) {
             for (let j = 0; j < allDeadlinesSorted.length; j++) {
                 if (i === allDeadlinesSorted[j]) {
-                    console.log(i, allDeadlinesSorted[j]);
                     _deadlinePerDay[i] += 1;
                 }
             }
         }
 
         this.setState({ deadlinesPerDay: [..._deadlinePerDay] });
-        console.log(_deadlinePerDay);
     }
 
     render() {

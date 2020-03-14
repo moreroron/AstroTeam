@@ -11,7 +11,9 @@ const Navbar = () => {
     const navOnline = isLoggedIn
         ? (
             <>
-                <Link to='teams/create-team'><button className="button is-link is-outlined m-r-sm">Create Team</button></Link>
+                <Link to='/teams/create-team'>
+                    <button className="button is-link is-outlined m-r-sm">Create Team</button>
+                </Link>
                 <div className="dropdown is-hoverable is-right">
                     <div className="dropdown-trigger">
                         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu3">
@@ -37,12 +39,6 @@ const Navbar = () => {
                                 </span>
                                 <span className="m-l-sm">All Members</span>
                             </Link>
-                            <Link to="/statistics" className="dropdown-item">
-                                <span className="icon is-medium">
-                                    <i className="fas fa-lg fa-chart-pie"></i>
-                                </span>
-                                <span className="m-l-sm">Statistics</span>
-                            </Link>
                             <hr className="dropdown-divider" />
                             <Link to="" className="dropdown-item">
                                 <button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>
@@ -62,6 +58,7 @@ const Navbar = () => {
             <NavLink to="/chat" className="navbar-item" activeClassName="activeLink">Chat</NavLink>
             <NavLink to="/map" className="navbar-item" activeClassName="activeLink">Map</NavLink>
             <NavLink to="/twitter" className="navbar-item" activeClassName="activeLink">Social</NavLink>
+            <NavLink to="/about" className="navbar-item" activeClassName="activeLink">About</NavLink>
         </>)
         : (<p className="navbar-note">The goodies doesn't come for free, <strong>Sign In</strong> first</p>)
 
@@ -74,8 +71,6 @@ const Navbar = () => {
                 </div>
 
                 <div className="navbar-end">
-                    <div className="navbar-item">
-                    </div>
                     <div className="navbar-item">
                         <div className="buttons">
                             {navOnline}
