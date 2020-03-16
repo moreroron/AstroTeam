@@ -27,7 +27,7 @@ const TaskItem = (props) => {
                         <div className="has-text-right">
                             <div className="tags has-addons rightside-tags">
                                 <span className="tag rightside-tags">{task.team.title}</span>
-                                <span className="tag is-white rightside-tags">
+                                <span className="tag mytag is-white rightside-tags">
                                     <div className="icon p-r-sm">
                                         <i className="far fa-calendar-alt"></i>
                                     </div>

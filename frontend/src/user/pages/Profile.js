@@ -14,8 +14,8 @@ const Profile = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.patch(`http://localhost:3001/users/${profile._id}`, { country: country })
-            .then(updateProfile({ ...profile, country: country }))
+        axios.patch(`http://localhost:3001/users/${profile._id}`, { country: country.charAt(0).toUpperCase() + country.slice(1) })
+            .then(updateProfile({ ...profile, country: country.charAt(0).toUpperCase() + country.slice(1) }))
             .then(props.history.push('/dashboard'));
     }
 

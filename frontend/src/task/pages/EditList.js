@@ -46,7 +46,7 @@ class EditList extends Component {
 
     render() {
 
-        const boold = !this.state.emptyList ? (<p>You can't delete non empty list. delete tasks first.</p>) : ('');
+        const boold = !this.state.emptyList ? (<p>You can't delete a non empty list. delete tasks first.</p>) : ('');
 
 
         const { listId } = this.props.match.params;
@@ -75,9 +75,8 @@ class EditList extends Component {
                             <button disabled={!this.state.emptyList} onClick={() => this.handleDeleteList(listId)} className="button is-danger">Delete</button>
                             <button type="submit" className="button is-link">
                                 <i className="fas fa-save m-r-sm"></i>
-                                Submit Changes
-                        </button>
-
+                                Save Changes
+                            </button>
 
                         </div>
                     </form>

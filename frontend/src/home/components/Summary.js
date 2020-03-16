@@ -19,8 +19,8 @@ const Summary = () => {
         <>
             <p className="is-size-3 title-secondary">WHO ARE WE?</p>
             <p className="is-size-4 three-col">
-                Astro-team is a web application delivered for teams to
-                better comunicate with each other.
+                Astro-team is a web application delivered for teams in order to
+                 comunicate better with each other.
                 Our platform gives teams the ability to assign missions between members
             and also supplies a dedicated <Link to={'/chat'}><span className="shadowing">chat room</span></Link> for instant feedback.
             </p>

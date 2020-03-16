@@ -90,9 +90,18 @@ class EditTask extends Component {
                             <input className="input" type="text" disabled value={this.state.task.team.title} />
                         </div>
                         <div className="field buttons is-right">
-                            <input type="submit" className="button is-link" placeholder="Add" />
-                            <button onClick={this.handleDeleteTask} className="button is-danger">Delete</button>
-                            <Link to="/dashboard"><button className="button">Cancel</button></Link>
+
+                            <Link to="/dashboard">
+                                <button className="button">
+                                    <i className="fas fa-chevron-left m-r-sm"></i>
+                                    Back
+                                </button>
+                            </Link>
+                            <button onClick={this.handleDeleteTask} className="button is-danger is-outlined">Delete</button>
+                            <button type="submit" className="button is-link">
+                                <i className="fas fa-save m-r-sm"></i>
+                                Save Changes
+                            </button>
                         </div>
                     </form>
                 </div>

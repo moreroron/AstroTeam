@@ -44,4 +44,15 @@ router.get('/:userId/tasks', (req, res) => {
         .then(tasks => res.send(tasks));
 });
 
+// group by country and count how much users are from there
+router.get('/counries/:country', async (req, res) => {
+    const docs = User.aggregate([
+        { $match: { country: req.params.country } },
+        { $group: { _id: null, "totalUsersFromCountry": { $sum: 1 } } }
+    ], (aggregateError, aggregateResult) => {
+        const num = aggregateResult[0];
+        res.send(num);
+    });
+});
+
 module.exports = router;
