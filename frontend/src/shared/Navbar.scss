@@ -25,3 +25,26 @@
     background-color: #fafafa !important;
     color: $blue !important;
 }
+
+.dropdown-username {}
+
+.dropdown-avatar {
+    display: inline-block;
+
+    & img {
+        border-radius: 50%;
+    }
+}
+
+.dropdown-arrow {
+    font-size: 0.8em;
+}
+
+.create-team-button {
+    transition: 0.1s ease-in;
+    background-color: $blue-bg;
+
+    &:hover {
+        background-color: $blue;
+    }
+}

@@ -6,16 +6,25 @@ const UserList = (props) => {
 
     const { users } = props;
 
-    const usersList = users.map((user, index) =>
-        <div key={index}>
-            <div className="list-menu-item is-active" href="#">
-                <UserItem user={user} />
-            </div>
-        </div>
+    const usersList = users.map(user =>
+        <UserItem key={user._id} user={user} />
     )
 
     return (
-        <div>{usersList}</div>
+        <table className="table table is-fullwidth">
+            <thead>
+                <tr class="table-head">
+                    <th></th>
+                    <th>NAME</th>
+                    <th>LOGIN EMAIL</th>
+                    <th>COUNTRY</th>
+                    <th>TASKS SUBMITED</th>
+                </tr>
+            </thead>
+            <tbody>
+                {usersList}
+            </tbody>
+        </table>
     )
 }
 

@@ -16,29 +16,17 @@ const UserItem = (props) => {
     }
 
     return (
-
-        <div className="box m-b-sm">
-            <div className="level">
-                <div className="level-left">
-                    <div className="level-item">
-                        <div>
-                            <p className="title is-6">{user.username}</p>
-                            <p className="is-6">{user.email}</p>
-                            <p className="is-6">{user.country}</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="level-right">
-                    <div className="level-item">
-                        <p className="">Tasks Opened: {tasks.length}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
+        <tr>
+            <th>
+                <figure className="image is-32x32">
+                    <img className="is-rounded" src={user.avatar} alt={user.username} />
+                </figure>
+            </th>
+            <td>{user.username}</td>
+            <td>{user.email}</td>
+            <td>{user.country}</td>
+            <td>{tasks.length}</td>
+        </tr>
     )
 }
 

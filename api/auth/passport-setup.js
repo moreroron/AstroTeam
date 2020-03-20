@@ -34,6 +34,7 @@ passport.use(
                 new User({
                     username: profile.displayName,
                     email: profile.emails[0].value,
+                    avatar: profile._json['picture'],
                     googleId: profile.id,
                 }).save()
                     .then(newUser => {

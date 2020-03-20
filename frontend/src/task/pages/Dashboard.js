@@ -48,12 +48,9 @@ class Dashboard extends Component {
         const listLists = !lists.length ? (<div>No lists added</div>) : (
             lists.map(list => {
                 let active = (list._id === this.state.currentListId) ? "active" : "";
-
                 return (
                     <div onClick={() => this.handleList(list._id)} className={active + " list-menu-item"} key={list._id}>
-                        <NavLink to={`dashboard/${list._id}`}>
-                            <p className={active}>{list.title}</p>
-                        </NavLink>
+                        <p className={active}>{list.title}</p>
                     </div>
                 )
             })
@@ -91,12 +88,12 @@ class Dashboard extends Component {
                                             <>
                                                 <div className="level-item">
                                                     <Link to={`/create-task/${this.state.currentListId}`}>
-                                                        <button className="button add-task-btn"><i className="fas fa-plus m-r-sm"></i>Add Task</button>
+                                                        <button className="button is-dark"><i className="fas fa-plus m-r-sm"></i>Add Task</button>
                                                     </Link>
                                                 </div>
                                                 <div className="level-item">
                                                     <Link to={`/edit-list/${this.state.currentListId}`}>
-                                                        <button className="button"><i className="fas fa-wrench m-r-sm"></i>Edit List</button>
+                                                        <button className="button is-white"><i className="fas fa-wrench m-r-sm"></i>Edit List</button>
                                                     </Link>
                                                 </div>
                                             </>

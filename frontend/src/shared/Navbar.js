@@ -11,38 +11,52 @@ const Navbar = () => {
     const navOnline = isLoggedIn
         ? (
             <>
-                <Link to='/teams/create-team'>
-                    <button className="button is-link is-outlined m-r-sm">Create Team</button>
-                </Link>
-                <div className="dropdown is-hoverable is-right">
-                    <div className="dropdown-trigger">
-                        <button className="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-                            <span className="icon is-large">
-                                <i className="fas fa-user-astronaut"></i>
-                            </span>
-                            <span>{profile.username}</span>
+                <div className="level-item">
+                    <Link to='/teams/create-team'>
+                        <button className="create-team-button button is-link is-outlined m-r-sm">Create Team</button>
+                    </Link>
+                </div>
+                <div className="level-item">
+                    <div className="dropdown is-hoverable is-right">
+                        <div className="dropdown-trigger">
 
-                        </button>
-                    </div>
+                            <div className="level m-l-md is-clickable" aria-haspopup="true" aria-controls="dropdown-menu3">
 
-                    <div className="dropdown-menu" id="dropdown-menu3" role="menu">
-                        <div className="dropdown-content">
-                            <Link to="/profile" className="dropdown-item">
-                                <span className="icon is-medium">
-                                    <i className="fas fa-lg fa-user-astronaut"></i>
-                                </span>
-                                <span className="m-l-sm">Profile</span>
-                            </Link>
-                            <Link to="/users" className="dropdown-item">
-                                <span className="icon is-medium">
-                                    <i className="fas fa-lg fa-space-shuttle"></i>
-                                </span>
-                                <span className="m-l-sm">All Members</span>
-                            </Link>
-                            <hr className="dropdown-divider" />
-                            <Link to="" className="dropdown-item">
-                                <button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>
-                            </Link>
+                                <div className="dropdown-avatar level-left">
+                                    <img src={profile.avatar} alt={profile.username} />
+                                </div>
+
+                                <div className="level-right m-l-sm">
+                                    <span className="dropdown-username">{profile.username}</span>
+                                    <div className="icon dropdown-arrow">
+                                        <i className="fas fa-chevron-down m-l-sm"></i>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div className="dropdown-menu" id="dropdown-menu3" role="menu">
+                            <div className="dropdown-content m-t-md">
+                                <Link to="/profile" className="dropdown-item">
+                                    <span className="icon is-medium">
+                                        <i className="fas fa-lg fa-user-astronaut"></i>
+                                    </span>
+                                    <span className="m-l-sm">Profile</span>
+                                </Link>
+                                <Link to="/users" className="dropdown-item">
+                                    <span className="icon is-medium">
+                                        <i className="fas fa-lg fa-space-shuttle"></i>
+                                    </span>
+                                    <span className="m-l-sm">All Members</span>
+                                </Link>
+                                <hr className="dropdown-divider" />
+                                <Link to="" className="dropdown-item">
+                                    <button onClick={() => { window.location.replace('http://localhost:3001/auth/logout') }} className="button google-btn">Logout</button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,7 +86,7 @@ const Navbar = () => {
 
                 <div className="navbar-end">
                     <div className="navbar-item">
-                        <div className="buttons">
+                        <div className="level">
                             {navOnline}
                         </div>
                     </div>

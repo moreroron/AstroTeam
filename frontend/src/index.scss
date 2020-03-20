@@ -1,5 +1,12 @@
 // This is where we put global styles and change variable values
+
+
+$table-cell-border: none;
+$table-cell-heading-color: grey;
+$table-head-cell-color: grey;
 @import '../node_modules/bulma/bulma.sass';
+
+
 @import './spaces.scss';
 // Import Fonts (Lato and Nunito)
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700|Nunito:400,700');
@@ -31,6 +38,7 @@ $link: $turquoise;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
+$table-cell-border: 0px;
 
 html {
   background: aliceblue;
@@ -42,6 +50,28 @@ body,
 #root>div {
   height: 100%;
 }
+
+table {
+  border-radius: 7px;
+}
+
+.is-clickable {
+  cursor: pointer;
+}
+
+.is-256x256 {
+  height: 256px;
+  width: 256px;
+}
+
+.table-head {
+
+  & th {
+    padding: 20px 10px;
+    font-size: 10px;
+  }
+}
+
 
 .centered-content {
   display: flex;
