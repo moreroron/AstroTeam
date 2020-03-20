@@ -20,6 +20,9 @@ $dark-green: rgb(0, 100, 80);
 
 $blue:#3273dc;
 $blue-hover: #2965c5;
+// $blue-light: color.scale($blue, $lightness: -30%);
+$blue-light: lighten($blue, 25%);
+$blue-lighter: lighten($blue, 40%);
 
 $red: #f14668;
 $red-hover: #fc6a88;

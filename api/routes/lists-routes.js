@@ -92,10 +92,11 @@ router.get('/:listId/tasks/:taskId', (req, res) => {
 // purpose: create a new task in a specific list
 router.post('/:listId/tasks', async (req, res) => {
     const task = new Task({
+        _listId: req.params.listId,
         author: req.body.author,
         title: req.body.title,
         status: req.body.status,
-        _listId: req.params.listId,
+        priority: req.body.priority,
         date: new Date(),
         deadline: req.body.deadline,
         team: req.body.team

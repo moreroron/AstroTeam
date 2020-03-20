@@ -12,6 +12,7 @@ const CreateTask = (props) => {
 
     const [title, setTitle] = useState("");
     const [status, setStatus] = useState("open");
+    const [priority, setPriority] = useState("medium");
     const [deadline, setDeadline] = useState();
     const [teams, setTeams] = useState([]);
     const [team, setTeam] = useState({});
@@ -50,6 +51,7 @@ const CreateTask = (props) => {
                 author: profile._id,
                 title: title,
                 status: status,
+                priority: priority,
                 deadline: deadline,
                 team: team
             });
@@ -94,14 +96,27 @@ const CreateTask = (props) => {
                     <div className="field">
                         <div className="label">Deadline</div>
                         <input onChange={handleDate} className="input" type="date" />
-
                     </div>
-                    <div className="label">Status</div>
-                    <div className="select">
-                        <select onChange={(e) => setStatus(e.target.value)} value={status}>
-                            <option value="open">Open</option>
-                            <option value="bug">Bug</option>
-                        </select>
+
+                    <div className="field">
+                        <div className="label">Status</div>
+                        <div className="select">
+                            <select onChange={(e) => setStatus(e.target.value)} value={status}>
+                                <option value="open">Open</option>
+                                <option value="bug">Bug</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="field">
+                        <div className="label">Priority</div>
+                        <div className="select">
+                            <select onChange={(e) => setPriority(e.target.value)} value={priority}>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
                     </div>
 
 

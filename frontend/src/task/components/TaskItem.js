@@ -7,17 +7,23 @@ const TaskItem = (props) => {
 
     const { task } = props
     let tag;
-    if (task.status === 'bug') tag = 'is-danger';
-    if (task.status === 'open') tag = 'is-dark';
-    if (task.status === 'closed') tag = '';
+    let opacity = 1.0;
+
+    if (task.priority === 'high' && task.status !== 'closed') tag = 'is-danger';
+    if (task.priority === 'medium' && task.status !== 'closed') tag = 'is-warning';
+    if (task.priority === 'low' && task.status !== 'closed') tag = 'is-link is-light';
+    if (task.status === 'closed') {
+        tag = 'is-success';
+        opacity = 0.5;
+    }
 
     return (
         <Link to={`/dashboard/${task._listId}/tasks/${task._id}`}>
-            <div className="task level">
+            <div className={"task level"} style={{ opacity: opacity }}>
                 <div className="level-left">
                     <div className="level-item">
                         <span className={tag + " tag m-r-md"}>{task.status}</span>
-                        <span className="has-text-weight-bold">{task.title}</span>
+                        <span className="">{task.title}</span>
 
                     </div>
                 </div>

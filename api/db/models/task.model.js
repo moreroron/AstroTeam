@@ -24,7 +24,8 @@ const TaskSchema = new mongoose.Schema({
     team: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Team'
-    }
+    },
+    priority: String // high, medium, low
 })
 
 const Task = mongoose.model('Task', TaskSchema, 'tasks');

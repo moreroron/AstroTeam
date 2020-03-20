@@ -12,7 +12,8 @@ class EditTask extends Component {
             task: {
                 team: { title: "" },
                 title: "",
-                status: ""
+                status: "",
+                priority: ""
             }
         }
     }
@@ -40,7 +41,8 @@ class EditTask extends Component {
         // update task
         const { data } = await axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`, {
             title: this.state.task.title,
-            status: this.state.task.status
+            status: this.state.task.status,
+            priority: this.state.task.priority
         });
         this.props.history.push('/dashboard');
     }
@@ -54,6 +56,12 @@ class EditTask extends Component {
     handleStatusChange = (e) => {
         this.setState({
             task: { ...this.state.task, status: e.target.value }
+        });
+    }
+
+    handlePriorityChange = (e) => {
+        this.setState({
+            task: { ...this.state.task, priority: e.target.value }
         });
     }
 
@@ -85,6 +93,18 @@ class EditTask extends Component {
                                 </select>
                             </div>
                         </div>
+
+                        <div className="field">
+                            <div className="label">Priority</div>
+                            <div className="select">
+                                <select value={this.state.task.priority} onChange={this.handlePriorityChange}>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div className="field">
                             <div className="label">Team</div>
                             <input className="input" type="text" disabled value={this.state.task.team.title} />
