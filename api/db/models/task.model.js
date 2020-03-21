@@ -17,6 +17,7 @@ const TaskSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    closedDate: Date,
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

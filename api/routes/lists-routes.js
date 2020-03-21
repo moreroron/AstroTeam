@@ -123,10 +123,11 @@ router.patch('/:listId/tasks/:taskId', (req, res) => {
 });
 
 // DELETE /lists/:listId/tasks/:taskId
-// purpose: delete an existing task + update user tasks
+// purpose: delete an existing task + update team
 router.delete('/:listId/tasks/:taskId', async (req, res) => {
     const deletedTask = await Task.findOneAndRemove({ _id: req.params.taskId, _listId: req.params.listId });
     const updatedTeam = await Team.findOneAndUpdate({ _id: deletedTask.team._id }, { task: null });
+    console.log(updatedTeam);
     res.send(deletedTask);
 });
 

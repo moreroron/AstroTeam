@@ -16,6 +16,19 @@ router.post('/', async (req, res) => {
     res.send(savedTeam);
 });
 
+// patch a specific user
+router.patch('/:teamId', async (req, res) => {
+    try {
+        const updatedTeam = await Team.updateOne(
+            { _id: req.params.teamId },
+            { $set: req.body }
+        );
+        res.send(updatedTeam);
+    } catch (err) {
+        res.send({ message: err })
+    }
+});
+
 router.delete('/:teamId', (req, res) => {
     Team.findOneAndRemove({ _id: req.params.teamId })
         .then(deletedTeam => res.send(deletedTeam));

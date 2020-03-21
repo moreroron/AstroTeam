@@ -1,6 +1,7 @@
 import React from 'react'
 import UserItem from './UserItem';
 import './UserList.scss';
+import EmployeeOfMonth from './EmployeeOfMonth';
 
 const UserList = (props) => {
 
@@ -11,20 +12,25 @@ const UserList = (props) => {
     )
 
     return (
-        <table className="table table is-fullwidth">
-            <thead>
-                <tr class="table-head">
-                    <th></th>
-                    <th>NAME</th>
-                    <th>LOGIN EMAIL</th>
-                    <th>COUNTRY</th>
-                    <th>TASKS SUBMITED</th>
-                </tr>
-            </thead>
-            <tbody>
-                {usersList}
-            </tbody>
-        </table>
+        <>
+            <div>
+                <EmployeeOfMonth />
+            </div>
+            <table className="table table is-fullwidth">
+                <thead>
+                    <tr className="table-head">
+                        <th></th>
+                        <th>NAME</th>
+                        <th>LOGIN EMAIL</th>
+                        <th>COUNTRY</th>
+                        <th>TASKS SUBMITED</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {usersList}
+                </tbody>
+            </table>
+        </>
     )
 }
 

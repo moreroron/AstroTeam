@@ -14,7 +14,8 @@ class EditTask extends Component {
                 title: "",
                 status: "",
                 priority: ""
-            }
+            },
+            teams: []
         }
     }
 
@@ -29,21 +30,39 @@ class EditTask extends Component {
 
     async componentDidMount() {
         const [userData, taskData] = await axios.all([this.getUserData(), this.getTaskData()]);
+        const teams = await axios.get(`http://localhost:3001/teams`);
         this.setState({
             user: userData.data[0],
-            task: taskData
+            task: taskData,
+            teams: teams.data
         });
         console.log(taskData, userData.data[0]);
     };
 
     handleSubmit = async (e, listId, taskId) => {
         e.preventDefault();
+        // checking if set to closed - save closedDate
+        let closedDate = null;
+        if (this.state.task.status === 'closed') {
+            closedDate = new Date();
+        }
         // update task
         const { data } = await axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`, {
             title: this.state.task.title,
             status: this.state.task.status,
-            priority: this.state.task.priority
+            priority: this.state.task.priority,
+            closedDate: closedDate
         });
+        // update team's task to null if task is closed (so they can take new task)
+        if (this.state.task.status === 'closed') {
+            const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
+                task: null
+            });
+        } else {
+            const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
+                task: this.state.task
+            });
+        }
         this.props.history.push('/dashboard');
     }
 
@@ -61,7 +80,7 @@ class EditTask extends Component {
 
     handlePriorityChange = (e) => {
         this.setState({
-            task: { ...this.state.task, priority: e.target.value }
+            task: { ...this.state.task, priority: JSON.parse(e.target.value) }
         });
     }
 
@@ -71,7 +90,19 @@ class EditTask extends Component {
         this.props.history.push('/dashboard');
     }
 
+    handleTeam = (e) => {
+        this.setState({
+            task: { ...this.state.task, team: e.target.value }
+        });
+    }
     render() {
+
+        const allTeamsOptions = this.state.teams.map(team => {
+            // the team is busy with another task
+            return <option disabled={team.task} key={team._id} value={JSON.stringify(team)}>{team.title}</option>
+        }
+        );
+
         const { listId, taskId } = this.props.match.params;
         return (
             <div className="centered-content">
@@ -107,8 +138,14 @@ class EditTask extends Component {
 
                         <div className="field">
                             <div className="label">Team</div>
-                            <input className="input" type="text" disabled value={this.state.task.team.title} />
+                            <div className="select">
+                                <select onChange={this.handleTeam}>
+                                    <option value="" defaultValue >Choose here</option>
+                                    {allTeamsOptions}
+                                </select>
+                            </div>
                         </div>
+
                         <div className="field buttons is-right">
 
                             <Link to="/dashboard">
