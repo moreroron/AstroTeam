@@ -13,7 +13,7 @@ const TaskItem = (props) => {
     if (task.priority === 'medium' && task.status !== 'closed') tag = 'is-warning';
     if (task.priority === 'low' && task.status !== 'closed') tag = 'is-link is-light';
     if (task.status === 'closed') {
-        tag = 'is-success';
+        tag = 'is-grey';
         opacity = 0.5;
     }
 

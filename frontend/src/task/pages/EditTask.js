@@ -9,6 +9,8 @@ class EditTask extends Component {
         super(props);
         this.state = {
             user: {},
+            currentTeam: {},
+            currentStatus: "",
             task: {
                 team: { title: "" },
                 title: "",
@@ -34,7 +36,9 @@ class EditTask extends Component {
         this.setState({
             user: userData.data[0],
             task: taskData,
-            teams: teams.data
+            teams: teams.data,
+            currentTeam: taskData.team,
+            currentStatus: taskData.status
         });
         console.log(taskData, userData.data[0]);
     };
@@ -51,7 +55,8 @@ class EditTask extends Component {
             title: this.state.task.title,
             status: this.state.task.status,
             priority: this.state.task.priority,
-            closedDate: closedDate
+            closedDate: closedDate,
+            team: this.state.task.team
         });
         // update team's task to null if task is closed (so they can take new task)
         if (this.state.task.status === 'closed') {
@@ -63,6 +68,10 @@ class EditTask extends Component {
                 task: this.state.task
             });
         }
+        // update current team task to null if team was switched to other
+        const team = await axios.patch(`http://localhost:3001/teams/${this.state.currentTeam._id}`, {
+            task: null
+        });
         this.props.history.push('/dashboard');
     }
 
@@ -80,7 +89,7 @@ class EditTask extends Component {
 
     handlePriorityChange = (e) => {
         this.setState({
-            task: { ...this.state.task, priority: JSON.parse(e.target.value) }
+            task: { ...this.state.task, priority: e.target.value }
         });
     }
 
@@ -92,14 +101,14 @@ class EditTask extends Component {
 
     handleTeam = (e) => {
         this.setState({
-            task: { ...this.state.task, team: e.target.value }
+            task: { ...this.state.task, team: JSON.parse(e.target.value) }
         });
     }
     render() {
 
         const allTeamsOptions = this.state.teams.map(team => {
             // the team is busy with another task
-            return <option disabled={team.task} key={team._id} value={JSON.stringify(team)}>{team.title}</option>
+            return <option disabled={team.task && team._id !== this.state.currentTeam._id} key={team._id} value={JSON.stringify(team)}>{team.title}</option>
         }
         );
 
@@ -139,8 +148,8 @@ class EditTask extends Component {
                         <div className="field">
                             <div className="label">Team</div>
                             <div className="select">
-                                <select onChange={this.handleTeam}>
-                                    <option value="" defaultValue >Choose here</option>
+                                <select value={JSON.stringify(this.state.task.team)} onChange={this.handleTeam}>
+                                    {/* <option value="" defaultValue >Choose here</option> */}
                                     {allTeamsOptions}
                                 </select>
                             </div>
