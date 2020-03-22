@@ -25,7 +25,7 @@ const UserItem = (props) => {
             <td>{user.username}</td>
             <td>{user.email}</td>
             <td>{user.country}</td>
-            <td>{tasks.length}</td>
+            <td>{user.closedTasksCounter}</td>
         </tr>
     )
 }

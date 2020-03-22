@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserContext from '../../UserContext'
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 class EditTask extends Component {
 
@@ -40,7 +41,8 @@ class EditTask extends Component {
             currentTeam: taskData.team,
             currentStatus: taskData.status
         });
-        console.log(taskData, userData.data[0]);
+        // console.log(taskData, userData.data[0]);
+        console.log(this.state.currentTeam);
     };
 
     handleSubmit = async (e, listId, taskId) => {
@@ -63,11 +65,31 @@ class EditTask extends Component {
             const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
                 task: null
             });
+            // add 1 to user's closedTasksCounter
+            this.state.currentTeam.users.forEach(async userId => {
+                let user = await axios.get(`http://localhost:3001/users/${userId}`);
+                let { data } = await axios.patch(`http://localhost:3001/users/${userId}`, {
+                    closedTasksCounter: user.data.closedTasksCounter + 1
+                });
+            });
+
         } else {
             const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
                 task: this.state.task
             });
         }
+        // if the task's switched from closed to open, substract 1 from team members closedTasksCounter
+
+        // if (this.state.currentStatus === 'closed' && this.state.task.status !== 'closed') {
+        //     // substract 1 form user's closedTasksCounter
+        //     this.state.currentTeam.users.forEach(async userId => {
+        //         let user = await axios.get(`http://localhost:3001/users/${userId}`);
+        //         let { data } = await axios.patch(`http://localhost:3001/users/${userId}`, {
+        //             closedTasksCounter: user.data.closedTasksCounter - 1
+        //         });
+        //     });
+        // }
+
         // update current team task to null if team was switched to other
         const team = await axios.patch(`http://localhost:3001/teams/${this.state.currentTeam._id}`, {
             task: null
@@ -112,21 +134,31 @@ class EditTask extends Component {
         }
         );
 
+        const title = this.state.currentStatus !== 'closed'
+            ? (<h1 className="title">Edit the task</h1>)
+            : (
+                <>
+                    <h1 className="title">The task is closed</h1>
+                    <p className="m-b-md">You can only edit non-closed tasks!</p>
+                </>
+            )
+
+
         const { listId, taskId } = this.props.match.params;
         return (
             <div className="centered-content">
                 <div className="modal-box">
 
-                    <h1 className="title">Edit the task</h1>
+                    {title}
                     <form onSubmit={e => this.handleSubmit(e, listId, taskId)}>
                         <div className="field">
                             <div className="label">Title</div>
-                            <input onChange={this.handleChange} id="title" className="input" type="text" value={this.state.task.title} />
+                            <input disabled={this.state.currentStatus === 'closed'} onChange={this.handleChange} id="title" className="input" type="text" value={this.state.task.title} />
                         </div>
                         <div className="field">
                             <div className="label">Status</div>
                             <div className="select">
-                                <select value={this.state.task.status} onChange={this.handleStatusChange}>
+                                <select disabled={this.state.currentStatus === 'closed'} value={this.state.task.status} onChange={this.handleStatusChange}>
                                     <option value="open">Open</option>
                                     <option value="bug">Bug</option>
                                     <option value="closed">Closed</option>
@@ -137,7 +169,7 @@ class EditTask extends Component {
                         <div className="field">
                             <div className="label">Priority</div>
                             <div className="select">
-                                <select value={this.state.task.priority} onChange={this.handlePriorityChange}>
+                                <select disabled={this.state.currentStatus === 'closed'} value={this.state.task.priority} onChange={this.handlePriorityChange}>
                                     <option value="high">High</option>
                                     <option value="medium">Medium</option>
                                     <option value="low">Low</option>
@@ -148,7 +180,7 @@ class EditTask extends Component {
                         <div className="field">
                             <div className="label">Team</div>
                             <div className="select">
-                                <select value={JSON.stringify(this.state.task.team)} onChange={this.handleTeam}>
+                                <select disabled={this.state.currentStatus === 'closed'} value={JSON.stringify(this.state.task.team)} onChange={this.handleTeam}>
                                     {/* <option value="" defaultValue >Choose here</option> */}
                                     {allTeamsOptions}
                                 </select>
@@ -163,13 +195,13 @@ class EditTask extends Component {
                                     Back
                                 </button>
                             </Link>
-                            <button onClick={this.handleDeleteTask} className="button is-danger is-outlined">Delete</button>
-                            <button type="submit" className="button is-link">
+                            <button disabled={this.state.currentStatus === 'closed'} type="submit" className="button is-link">
                                 <i className="fas fa-save m-r-sm"></i>
                                 Save Changes
                             </button>
                         </div>
                     </form>
+                    <button onClick={this.handleDeleteTask} className="button is-danger is-outlined">Remove</button>
                 </div>
 
             </div>

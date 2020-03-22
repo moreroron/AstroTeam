@@ -5,6 +5,11 @@ const UserSchema = new mongoose.Schema({
     email: String,
     avatar: String,
     googleId: String,
+    closedTasksCounter:
+    {
+        type: Number,
+        default: 0
+    },
     country: {
         type: String,
         default: "israel"

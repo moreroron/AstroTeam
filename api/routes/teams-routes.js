@@ -7,6 +7,11 @@ router.get('/', (req, res) => {
         .then(teams => res.send(teams));
 });
 
+router.get('/:teamId', (req, res) => {
+    Team.findOne({ _id: req.params.teamId })
+        .then(team => res.send(team));
+});
+
 router.post('/', async (req, res) => {
     const team = new Team({
         title: req.body.title,
