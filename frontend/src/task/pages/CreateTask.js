@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../../UserContext';
 import moment from 'moment';
-import { Calendar } from 'react-date-range';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 const CreateTask = (props) => {
 
@@ -12,26 +13,31 @@ const CreateTask = (props) => {
 
     const [title, setTitle] = useState("");
     const [status, setStatus] = useState("open");
-    const [priority, setPriority] = useState("medium");
+    const [priority, setPriority] = useState();
     const [deadline, setDeadline] = useState();
     const [teams, setTeams] = useState([]);
     const [team, setTeam] = useState({});
 
     const { listId } = props.match.params;
-    const { profile, updateProfile } = useContext(UserContext);
+    const { profile } = useContext(UserContext);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/teams').then(res => {
-            const teams = res.data;
-            console.log(teams);
-            setTeams(res.data);
-            // if (res.data.length) {
-            //     setTeam(res.data[0]);
-            //     inputRef.current.focus();
-            // }
-        })
-
+        axios.get('http://localhost:3001/teams')
+            .then(teamsRes => setTeams(teamsRes.data))
     }, []);
+
+    const priorityOptions = [
+        { value: 'low', label: '🟡Low' },
+        { value: 'medium', label: '🟠 Medium' },
+        { value: 'high', label: '🔴 High' }
+    ];
+
+    const customStyles = {
+        container: provided => ({
+            ...provided,
+            width: 150
+        })
+    };
 
     const handleDate = (e) => {
         setDeadline(e.target.value);
@@ -110,15 +116,15 @@ const CreateTask = (props) => {
 
                     <div className="field">
                         <div className="label">Priority</div>
-                        <div className="select">
-                            <select onChange={(e) => setPriority(e.target.value)} value={priority}>
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                        </div>
+                        <Select
+                            onChange={setPriority}
+                            defaultValue={{ value: 'low', label: 'Low' }}
+                            components={makeAnimated()}
+                            options={priorityOptions}
+                            isSearchable
+                            styles={customStyles}
+                        />
                     </div>
-
 
                     <div className="field buttons is-right">
                         <Link to="/dashboard">
