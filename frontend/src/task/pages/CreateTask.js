@@ -13,7 +13,7 @@ const CreateTask = (props) => {
 
     const [title, setTitle] = useState("");
     const [status, setStatus] = useState("open");
-    const [priority, setPriority] = useState();
+    const [priority, setPriority] = useState({ value: 'low', label: '🟡Low' });
     const [deadline, setDeadline] = useState();
     const [teams, setTeams] = useState([]);
     const [team, setTeam] = useState({});
@@ -57,7 +57,7 @@ const CreateTask = (props) => {
                 author: profile._id,
                 title: title,
                 status: status,
-                priority: priority,
+                priority: priority.value,
                 deadline: deadline,
                 team: team
             });

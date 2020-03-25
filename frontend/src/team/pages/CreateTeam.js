@@ -29,7 +29,7 @@ class CreateTeam extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         const users = this.state.selectedUsers.map(user => {
-            return { value: user.value }
+            return user.value
         });
 
         console.log(users);
