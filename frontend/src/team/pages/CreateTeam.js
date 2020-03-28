@@ -1,115 +1,74 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import { useForm } from "react-hook-form";
 
-class CreateTeam extends Component {
+const CreateTeam = props => {
+  const [users, setUsers] = useState([]);
+  const { register, handleSubmit, errors, setValue } = useForm();
 
-    state = {
-        users: [],
-        selectedUsers: [],
-        title: "",
-    }
+  useEffect(() => {
+    axios.get("http://localhost:3001/users").then(users => setUsers(users.data));
+    register({ name: "members" }, { required: true, validate: members => members });
+  }, []);
 
-    handleTitle = (e) => {
-        this.setState({
-            title: e.target.value
-        });
-    }
+  const onSubmit = async formData => {
+    console.log(formData);
+    const members = formData.members.map(member => member.value);
+    const { teams } = await axios.post("http://localhost:3001/teams", {
+      title: formData.title,
+      users: members
+    });
+    props.history.push("/dashboard");
+  };
 
-    handleSelectUsers = (e) => {
-        //const options = Array.from(e.target.options).filter(option => option.selected);
-        //console.log(options);
-        // options.forEach(option => {
-        //     this.setState({ selectedUsers: [...this.state.selectedUsers, option.value] });
-        // });
-    }
+  const handleMembers = members => {
+    setValue("members", members);
+  };
 
-    handleSubmit = async (e) => {
-        e.preventDefault();
-        const users = this.state.selectedUsers.map(user => {
-            return user.value
-        });
+  const allUsersOptions = users.map(user => {
+    return { value: user._id, label: user.username };
+  });
 
-        console.log(users);
-
-        const { data } = await axios.post('http://localhost:3001/teams',
-            {
-                title: this.state.title,
-                users: users
-            });
-        this.props.history.push('/dashboard');
-    }
-
-    async componentDidMount() {
-        const { data } = await axios.get('http://localhost:3001/users');
-        this.setState({ users: data });
-    }
-
-
-
-    render() {
-
-        console.log(this.state.selectedUsers);
-
-        // const allUsersOptions = this.state.users.map(user =>
-        //     <option key={user._id} value={user._id}>{user.username}</option>
-        // );
-        const allUsersOptions = this.state.users.map(user => {
-            return { value: user._id, label: user.username }
-        });
-
-        return (
-            <div className="centered-content">
-                <div className="modal-box">
-                    <h1 className="title">Create a team</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="field">
-                            <div className="label">Name</div>
-                            <input onChange={this.handleTitle} className="input" type="input" placeholder="choose a name" />
-                        </div>
-
-                        {/* <div className="field">
-                            <div className="label">Add members</div>
-                            <div className="select is-multiple">
-                                <select multiple size={this.state.users.length} onChange={this.handleSelectUsers} value={this.userSelection}>
-                                    {allUsersOptions}
-                                </select>
-                            </div>
-                        </div> */}
-
-                        <div className="field">
-                            <div className="label">Assign Members</div>
-                            <Select
-                                value={this.state.selectedUsers}
-                                onChange={value => this.setState({ selectedUsers: value })}
-                                components={makeAnimated()}
-                                options={allUsersOptions}
-                                isSearchable
-                                isMulti
-                                closeMenuOnSelect={false}
-                            />
-                        </div>
-
-                        <div className="field buttons is-right">
-                            <Link to="/dashboard">
-                                <button className="button">
-                                    <i className="fas fa-chevron-left m-r-sm"></i>
-                                    Back
-                            </button>
-                            </Link>
-                            <button type="submit" className="button is-link">
-                                <i className="fas fa-users m-r-sm"></i>
-                                Add Team
-                        </button>
-                        </div>
-                    </form>
-                </div>
+  return (
+    <div className="centered-content">
+      <div className="modal-box">
+        <h1 className="title">Create a team</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="field">
+            <div className="label">
+              <span className="has-text-danger"> * </span>Team's Name
             </div>
-        )
-    }
+            <input name="title" ref={register({ required: true, minLength: 1 })} className="input" type="input" placeholder="choose a name" />
+          </div>
+          {errors.title && <p className="input-error-message">Team's name is required & must be at least 1 character long</p>}
 
-}
+          <div className="field">
+            <div className="label">
+              <span className="has-text-danger"> * </span>Members
+            </div>
+            <Select name="members" onChange={handleMembers} components={makeAnimated()} options={allUsersOptions} isSearchable isMulti closeMenuOnSelect={false} />
+          </div>
+          {errors.members && <p className="input-error-message">You must select at least 1 member</p>}
 
-export default CreateTeam
+          <div className="field buttons is-right">
+            <Link to="/dashboard">
+              <button className="button">
+                <i className="fas fa-chevron-left m-r-sm"></i>
+                Back
+              </button>
+            </Link>
+            <button type="submit" className="button is-link">
+              <i className="fas fa-users m-r-sm"></i>
+              Add Team
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default CreateTeam;
