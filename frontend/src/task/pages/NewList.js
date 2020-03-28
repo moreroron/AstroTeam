@@ -1,50 +1,43 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
-import './NewList.scss';
-import axios from 'axios';
+import React from "react";
+import { withRouter } from "react-router-dom";
+import "./NewList.scss";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
-const NewList = (props) => {
+const NewList = props => {
+  const { register, handleSubmit, errors } = useForm();
 
-    const [title, setTitle] = useState('');
+  const onSubmit = formData => {
+    axios.post("http://localhost:3001/lists", { title: formData.title }).then(props.history.push("/dashboard"));
+  };
 
-    const inputRef = useRef();
+  return (
+    <div className="centered-content">
+      <div className="modal-box">
+        <h1 className="title">Create a new list</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="field">
+            <input name="title" ref={register({ required: true, minLength: 3 })} id="title" className="input" type="text" placeholder="list name" />
+          </div>
+          {errors.title && <p className="input-error-message">Title is required & must be 3 characters at least</p>}
 
-    useEffect(() => {
-        inputRef.current.focus();
-    }
-        , []);
+          <div className="field buttons is-right">
+          <Link to="/dashboard">
+              <button className="button">
+                <i className="fas fa-chevron-left m-r-sm"></i>
+                Back
+              </button>
+            </Link>
+            <button type="submit" className="button is-link">
+              <i className="fas fa-plus m-r-sm"></i>
+              Add List
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post("http://localhost:3001/lists", { title: title })
-            .then(props.history.push('/dashboard'));
-    }
-
-    return (
-        <div className="centered-content">
-            <div className="modal-box">
-                <h1 className="title">Create a new list</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="field">
-                        <input ref={inputRef} onChange={(e) => setTitle(e.target.value)} id="title" className="input" type="text" placeholder="list name" />
-                    </div>
-
-                    <div className="field buttons is-right">
-                        <button className="button">
-                            <i className="fas fa-chevron-left m-r-sm"></i>
-                            Back
-                            </button>
-                        <button type="submit" className="button is-link">
-                            <i className="fas fa-plus m-r-sm"></i>
-                            Add List
-                        </button>
-
-                    </div>
-                </form>
-            </div>
-        </div>
-    )
-}
-
-
-export default withRouter(NewList)
+export default withRouter(NewList);
