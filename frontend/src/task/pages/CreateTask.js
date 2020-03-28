@@ -1,30 +1,35 @@
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../../UserContext';
 import moment from 'moment';
 import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
+import { useForm } from 'react-hook-form';
 
 const CreateTask = (props) => {
 
-    const inputRef = useRef();
-    const deadlineErrorRef = useRef();
-
-    const [title, setTitle] = useState("");
-    const [status, setStatus] = useState("open");
-    const [priority, setPriority] = useState({ value: 'low', label: '🟡Low' });
-    const [deadline, setDeadline] = useState();
+    const { register, handleSubmit, errors, setValue } = useForm();
     const [teams, setTeams] = useState([]);
-    const [team, setTeam] = useState({});
-
     const { listId } = props.match.params;
     const { profile } = useContext(UserContext);
 
     useEffect(() => {
+        register({ name: "priority" }, { required: true });
         axios.get('http://localhost:3001/teams')
             .then(teamsRes => setTeams(teamsRes.data))
     }, []);
+
+    const onSubmit = async formData => {
+        const { data } = await axios.post(`http://localhost:3001/lists/${listId}/tasks`, {
+            author: profile._id,
+            title: formData.title,
+            status: formData.status,
+            priority: formData.priority.value,
+            deadline: new Date(formData.deadline),
+            team: JSON.parse(formData.team)
+        });
+        props.history.push('/dashboard');
+    }
 
     const priorityOptions = [
         { value: 'low', label: '🟡Low' },
@@ -39,31 +44,10 @@ const CreateTask = (props) => {
         })
     };
 
-    const handleDate = (e) => {
-        setDeadline(e.target.value);
-        const validation = moment(e.target.value).isBefore(new Date());
-        validation ? deadlineErrorRef.current = "You can't choose a date already passed" : deadlineErrorRef.current = "";
-    }
-
-    const handleTeam = (e) => {
-        console.log(JSON.parse(e.target.value));
-        setTeam(JSON.parse(e.target.value));
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!deadlineErrorRef.current) {
-            const { data } = await axios.post(`http://localhost:3001/lists/${listId}/tasks`, {
-                author: profile._id,
-                title: title,
-                status: status,
-                priority: priority.value,
-                deadline: deadline,
-                team: team
-            });
-            props.history.push('/dashboard');
-        }
-    }
+    const handlePriority = selectedOptions => {
+        console.log(selectedOptions);
+        setValue("priority", selectedOptions);
+    };
 
     if (!teams.length) return (
         <div className="centered-content">
@@ -84,30 +68,37 @@ const CreateTask = (props) => {
         <div className="centered-content">
             <div className="modal-box">
                 <h1 className="title">Create New Task</h1>
-                <p className="has-text-danger m-b-sm">{deadlineErrorRef.current}</p>
-                <form onSubmit={handleSubmit}>
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+
                     <div className="field">
-                        <div className="label">Title</div>
-                        <input onChange={(e) => setTitle(e.target.value)} ref={inputRef} id="title" className="input" type="text" placeholder="give the task a name" />
+                        <div className="label"><span className="has-text-danger"> * </span>Title</div>
+                        <input name="title" ref={register({ required: true, minLength: 3 })} id="title" className="input" type="text" placeholder="give the task a name" />
                     </div>
+                    {errors.title && <p className="input-error-message">Title is required & must be 3 characters at least</p>}
+
                     <div className="field">
-                        <div className="label">Team</div>
+                        <div className="label"><span className="has-text-danger m-b-md"> * </span>Team</div>
                         <div className="select">
-                            <select onChange={handleTeam}>
-                                <option value="" defaultValue >Choose here</option>
+                            <select name="team" ref={register({ required: true })}>
+                                <option value="" defaultValue>Choose here</option>
                                 {allTeamsOptions}
                             </select>
                         </div>
                     </div>
-                    <div className="field">
-                        <div className="label">Deadline</div>
-                        <input onChange={handleDate} className="input" type="date" />
-                    </div>
+                    {errors.team && <p className="input-error-message m-b-md">You must choose an available team</p>}
+
 
                     <div className="field">
-                        <div className="label">Status</div>
+                        <div className="label"><span className="has-text-danger"> * </span>Deadline</div>
+                        <input name="deadline" ref={register({ validate: date => moment(date).isAfter(new Date()) })} className="input" type="date" />
+                    </div>
+                    {errors.date && <p className="input-error-message">Date must be after the current date</p>}
+
+                    <div className="field">
+                        <div className="label"><span className="has-text-danger"> * </span>Status</div>
                         <div className="select">
-                            <select onChange={(e) => setStatus(e.target.value)} value={status}>
+                            <select name="status" ref={register}>
                                 <option value="open">Open</option>
                                 <option value="bug">Bug</option>
                             </select>
@@ -117,14 +108,13 @@ const CreateTask = (props) => {
                     <div className="field">
                         <div className="label">Priority</div>
                         <Select
-                            onChange={setPriority}
-                            defaultValue={{ value: 'low', label: 'Low' }}
-                            components={makeAnimated()}
+                            onChange={handlePriority}
+                            name="priority"
                             options={priorityOptions}
-                            isSearchable
                             styles={customStyles}
                         />
                     </div>
+                    {errors.priority && <p className="input-error-message">You must choose a priority</p>}
 
                     <div className="field buttons is-right">
                         <Link to="/dashboard">
@@ -138,6 +128,8 @@ const CreateTask = (props) => {
                             Add Task
                         </button>
                     </div>
+
+
                 </form>
             </div>
         </div>
