@@ -1,16 +1,21 @@
 .tinted-image {
-    background: #242424;
-    background:
-        linear-gradient(rgba(0, 0, 0, 0.1),
-            rgb(0, 0, 0)),
-        url(../assets/background.jpg);
-    background-size: cover;
+  background: #242424;
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgb(0, 0, 0)), url(../assets/background.jpg);
+  background-size: cover;
 }
 
 .task-manager-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    max-width: 1000px;
-    max-height: 680px;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  max-width: 1000px;
+  max-height: 680px;
+}
+
+.tweet {
+  background-color: #ffffff0f;
+  border-radius: 5px;
+  margin-right: 20px;
+  color: #abb7ca;
+  padding: 20px;
 }
