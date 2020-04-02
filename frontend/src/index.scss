@@ -1,47 +1,27 @@
-// This is where we put global styles and change variable values
+// Import Fonts
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700|Nunito:400,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap");
 
+// fonts
+$family-sans-serif: "Roboto", sans-serif;
+$font-secondary: "Odibee Sans";
 
-$table-cell-border: none;
-$table-cell-heading-color: grey;
-$table-head-cell-color: grey;
-@import '../node_modules/bulma/bulma.sass';
-
-
-@import './spaces.scss';
-// Import Fonts (Lato and Nunito)
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Nunito:400,700');
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap');
-
-$turquoise: #44ddd0;
-$green: #27d7a1;
-$light-green: #45f69e;
-$dark-green: rgb(0, 100, 80);
-
-$blue:#3273dc;
+// colors
+$blue: #3273dc;
 $blue-hover: #2965c5;
-// $blue-light: color.scale($blue, $lightness: -30%);
 $blue-light: lighten($blue, 25%);
 $blue-lighter: lighten($blue, 40%);
-
 $red: #f14668;
 $red-hover: #fc6a88;
-
 $light: #f8f8f8;
 $blue-bg: #e9f2f9;
 
-$family-sans-serif: "Roboto",
-sans-serif;
-$font-secondary: 'Odibee Sans';
-$primary: $green;
-$link: $turquoise;
-
-// Update some of Bulma's component variables
-
-$control-border-width: 2px;
-$input-border-color: transparent;
+// table
+$table-cell-border: none;
+$table-cell-heading-color: grey;
+$table-head-cell-color: grey;
 $input-shadow: none;
-$table-cell-border: 0px;
 
 html {
   background: aliceblue;
@@ -50,7 +30,7 @@ html {
 html,
 body,
 #root,
-#root>div {
+#root > div {
   height: 100%;
 }
 
@@ -68,13 +48,11 @@ table {
 }
 
 .table-head {
-
   & th {
     padding: 20px 10px;
     font-size: 10px;
   }
 }
-
 
 .centered-content {
   display: flex;
@@ -96,8 +74,8 @@ table {
 }
 
 .title {
-  font-family: 'Lato';
-  font-size: 24px;
+  font-family: "Lato";
+  font-size: 25px !important;
 }
 
 .title-secondary {
@@ -152,3 +130,6 @@ table {
   padding: 5px 10px;
   margin-bottom: 20px;
 }
+
+@import "../node_modules/bulma/bulma.sass";
+@import "./spaces.scss";

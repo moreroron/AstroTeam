@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import "./NewList.scss";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -23,7 +22,7 @@ const NewList = props => {
           {errors.title && <p className="input-error-message">Title is required & must be 3 characters at least</p>}
 
           <div className="field buttons is-right">
-          <Link to="/dashboard">
+            <Link to="/dashboard">
               <button className="button">
                 <i className="fas fa-chevron-left m-r-sm"></i>
                 Back

@@ -12,8 +12,6 @@ import UserContext from "./UserContext";
 import axios from "axios";
 import Profile from "./user/pages/Profile";
 import SearchUser from "./user/pages/SearchUser";
-// scss
-import "./index.scss";
 import MapContainer from "./map/MapContainer";
 import Chat from "./utils/Chat";
 import CreateTeam from "./team/pages/CreateTeam";
