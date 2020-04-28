@@ -1,7 +1,10 @@
 import React from "react";
 
-const UserItem = props => {
+const UserItem = (props) => {
   const { user } = props;
+
+  // const userTeams = user.tasks
+  console.log(user);
 
   return (
     <tr>

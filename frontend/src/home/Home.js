@@ -8,7 +8,7 @@ const Home = () => {
   const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/utils/twitter").then(res => setTweets(res.data));
+    axios.get("http://localhost:3001/utils/twitter").then((res) => setTweets(res.data));
   }, []);
 
   const { isLoggedIn } = useContext(UserContext);
@@ -53,7 +53,12 @@ const Home = () => {
         </div>
       </div>
       <div className="hero-footer m-xl">
-        <p className="m-b-lg has-text-white">Latest Tweets:</p>
+        <p className="m-b-lg has-text-white">
+          <span style={{ fontSize: "1.5em" }}>
+            <i className="m-r-sm fab fa-twitter"></i>
+          </span>
+          Latest Tweets:
+        </p>
         <div className="tile is-ancestor">{allTweets}</div>
       </div>
     </section>

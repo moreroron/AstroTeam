@@ -5,30 +5,30 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useForm } from "react-hook-form";
 
-const CreateTeam = props => {
+const CreateTeam = (props) => {
   const [users, setUsers] = useState([]);
   const { register, handleSubmit, errors, setValue } = useForm();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/users").then(users => setUsers(users.data));
-    register({ name: "members" }, { required: true, validate: members => members });
+    axios.get("http://localhost:3001/users").then((users) => setUsers(users.data));
+    register({ name: "members" }, { required: true, validate: (members) => members });
   }, []);
 
-  const onSubmit = async formData => {
+  const onSubmit = async (formData) => {
     console.log(formData);
-    const members = formData.members.map(member => member.value);
+    const members = formData.members.map((member) => member.value);
     const { teams } = await axios.post("http://localhost:3001/teams", {
       title: formData.title,
-      users: members
+      users: members,
     });
     props.history.push("/dashboard");
   };
 
-  const handleMembers = members => {
+  const handleMembers = (members) => {
     setValue("members", members);
   };
 
-  const allUsersOptions = users.map(user => {
+  const allUsersOptions = users.map((user) => {
     return { value: user._id, label: user.username };
   });
 

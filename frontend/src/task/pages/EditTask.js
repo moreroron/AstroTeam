@@ -14,9 +14,9 @@ class EditTask extends Component {
         team: { title: "" },
         title: "",
         status: "",
-        priority: ""
+        priority: "",
       },
-      teams: []
+      teams: [],
     };
   }
 
@@ -37,7 +37,7 @@ class EditTask extends Component {
       task: taskData,
       teams: teams.data,
       currentTeam: taskData.team,
-      currentStatus: taskData.status
+      currentStatus: taskData.status,
     });
     // console.log(taskData, userData.data[0]);
     console.log(this.state.currentTeam);
@@ -56,64 +56,64 @@ class EditTask extends Component {
       status: this.state.task.status,
       priority: this.state.task.priority,
       closedDate: closedDate,
-      team: this.state.task.team
+      team: this.state.task.team,
     });
     // update team's task to null if task is closed (so they can take new task)
     if (this.state.task.status === "closed") {
       const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
-        task: null
+        task: null,
       });
       // add 1 to user's closedTasksCounter
-      this.state.currentTeam.users.forEach(async userId => {
+      this.state.currentTeam.users.forEach(async (userId) => {
         let user = await axios.get(`http://localhost:3001/users/${userId}`);
         let { data } = await axios.patch(`http://localhost:3001/users/${userId}`, {
-          closedTasksCounter: user.data.closedTasksCounter + 1
+          closedTasksCounter: user.data.closedTasksCounter + 1,
         });
       });
     } else {
       const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
-        task: this.state.task
+        task: this.state.task,
       });
     }
 
     // update current team task to null if team was switched to other
     const team = await axios.patch(`http://localhost:3001/teams/${this.state.currentTeam._id}`, {
-      task: null
+      task: null,
     });
     this.props.history.push("/dashboard");
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      task: { ...this.state.task, title: e.target.value }
+      task: { ...this.state.task, title: e.target.value },
     });
   };
 
-  handleStatusChange = e => {
+  handleStatusChange = (e) => {
     this.setState({
-      task: { ...this.state.task, status: e.target.value }
+      task: { ...this.state.task, status: e.target.value },
     });
   };
 
-  handlePriorityChange = e => {
+  handlePriorityChange = (e) => {
     this.setState({
-      task: { ...this.state.task, priority: e.target.value }
+      task: { ...this.state.task, priority: e.target.value },
     });
   };
 
-  handleDeleteTask = async e => {
+  handleDeleteTask = async (e) => {
     const { task } = this.state;
     const { data } = await axios.delete(`http://localhost:3001/lists/${task._listId}/tasks/${task._id}`);
     this.props.history.push("/dashboard");
   };
 
-  handleTeam = e => {
+  handleTeam = (e) => {
     this.setState({
-      task: { ...this.state.task, team: JSON.parse(e.target.value) }
+      task: { ...this.state.task, team: JSON.parse(e.target.value) },
     });
   };
   render() {
-    const allTeamsOptions = this.state.teams.map(team => {
+    const allTeamsOptions = this.state.teams.map((team) => {
       // the team is busy with another task
       return (
         <option disabled={team.task && team._id !== this.state.currentTeam._id} key={team._id} value={JSON.stringify(team)}>
@@ -132,12 +132,14 @@ class EditTask extends Component {
         </>
       );
 
+    const closedTaskWarning = this.state.task.status === "closed" && this.state.currentStatus !== "closed" ? "* If you close the task you won't be able to edit it afterwards." : "";
+
     const { listId, taskId } = this.props.match.params;
     return (
       <div className="centered-content">
         <div className="modal-box">
           {title}
-          <form onSubmit={e => this.handleSubmit(e, listId, taskId)}>
+          <form onSubmit={(e) => this.handleSubmit(e, listId, taskId)}>
             <div className="field">
               <div className="label">Title</div>
               <input disabled={this.state.currentStatus === "closed"} onChange={this.handleChange} id="title" className="input" type="text" value={this.state.task.title} />
@@ -151,6 +153,7 @@ class EditTask extends Component {
                   <option value="closed">Closed</option>
                 </select>
               </div>
+              <p className="help">{closedTaskWarning}</p>
             </div>
 
             <div className="field">
@@ -175,7 +178,7 @@ class EditTask extends Component {
 
             <div className="field buttons is-right">
               <Link to="/dashboard">
-                <button className="button">
+                <button className="button is-link is-light">
                   <i className="fas fa-chevron-left m-r-sm"></i>
                   Back
                 </button>

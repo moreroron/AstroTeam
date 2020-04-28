@@ -7,7 +7,7 @@ import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRange } from "react-date-range";
 
-const SearchTask = props => {
+const SearchTask = (props) => {
   const [tasks, setTasks] = useState([]);
   const [status, setStatus] = useState("all");
   const [date, setDate] = useState();
@@ -16,8 +16,8 @@ const SearchTask = props => {
     {
       startDate: new Date(),
       endDate: null,
-      key: "selection"
-    }
+      key: "selection",
+    },
   ]);
 
   useEffect(() => {
@@ -27,15 +27,15 @@ const SearchTask = props => {
     setTasks(reverseOrder);
   }, [props.tasks]);
 
-  const handleChange = e => {
-    let filteredTasks = tasks.filter(task => {
-      return task.title.startsWith(e.target.value);
+  const handleChange = (e) => {
+    const filteredTasks = props.tasks.filter((task) => {
+      return task.title.includes(e.target.value);
     });
     e.target.value !== "" ? setTasks(filteredTasks) : setTasks(props.tasks);
   };
 
-  const handleStatusChange = e => {
-    let filteredTasks = props.tasks.filter(task => {
+  const handleStatusChange = (e) => {
+    let filteredTasks = props.tasks.filter((task) => {
       return task.status === e.target.value;
     });
     setStatus(e.target.value);
@@ -44,7 +44,7 @@ const SearchTask = props => {
     if (e.target.value === "all") setTasks(props.tasks);
   };
 
-  const handleDateChange = e => {
+  const handleDateChange = (e) => {
     let filteredTasks = tasks.sort((a, b) => {
       if (e.target.value === "new") return new Date(b.date) - new Date(a.date);
       else if (e.target.value === "old") return new Date(a.date) - new Date(b.date);
@@ -53,11 +53,11 @@ const SearchTask = props => {
     setTasks(filteredTasks);
   };
 
-  const handleCal = item => {
+  const handleCal = (item) => {
     setCal([item.selection]);
     const start = item.selection.startDate;
     const end = item.selection.endDate;
-    const filteredTasks = props.tasks.filter(task => {
+    const filteredTasks = props.tasks.filter((task) => {
       return moment(task.deadline).isBetween(start, end);
     });
     setTasks([...filteredTasks]);
@@ -110,7 +110,7 @@ const SearchTask = props => {
               <div className="dropdown-menu" id="dropdown-menu6" role="menu">
                 <div className="dropdown-content">
                   <div className="dropdown-item">
-                    <DateRange editableDateInputs={false} onChange={handleCal} moveRangeOnFirstSelection={false} ranges={cal} minDate={new Date()} />
+                    <DateRange editableDateInputs={false} onChange={handleCal} moveRangeOnFirstSelection={false} ranges={cal} />
                   </div>
                 </div>
               </div>

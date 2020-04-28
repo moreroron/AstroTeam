@@ -1,18 +1,20 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const TeamSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
+  title: {
+    type: String,
+    required: true,
+  },
+  users: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    users: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    task: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task'
-    }
-})
+  ],
+  task: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Task",
+  },
+});
 
-module.exports = mongoose.model('Team', TeamSchema)
+module.exports = mongoose.model("Team", TeamSchema);

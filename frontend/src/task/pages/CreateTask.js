@@ -6,7 +6,7 @@ import moment from "moment";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
 
-const CreateTask = props => {
+const CreateTask = (props) => {
   const { register, handleSubmit, errors, setValue } = useForm();
   const [teams, setTeams] = useState([]);
   const { listId } = props.match.params;
@@ -14,17 +14,17 @@ const CreateTask = props => {
 
   useEffect(() => {
     register({ name: "priority" }, { required: true });
-    axios.get("http://localhost:3001/teams").then(teamsRes => setTeams(teamsRes.data));
+    axios.get("http://localhost:3001/teams").then((teamsRes) => setTeams(teamsRes.data));
   }, []);
 
-  const onSubmit = async formData => {
+  const onSubmit = async (formData) => {
     const { data } = await axios.post(`http://localhost:3001/lists/${listId}/tasks`, {
       author: profile._id,
       title: formData.title,
       status: formData.status,
       priority: formData.priority.value,
       deadline: new Date(formData.deadline),
-      team: JSON.parse(formData.team)
+      team: JSON.parse(formData.team),
     });
     props.history.push("/dashboard");
   };
@@ -32,17 +32,17 @@ const CreateTask = props => {
   const priorityOptions = [
     { value: "low", label: "🟡Low" },
     { value: "medium", label: "🟠 Medium" },
-    { value: "high", label: "🔴 High" }
+    { value: "high", label: "🔴 High" },
   ];
 
   const customStyles = {
-    container: provided => ({
+    container: (provided) => ({
       ...provided,
-      width: 150
-    })
+      width: 150,
+    }),
   };
 
-  const handlePriority = selectedOptions => {
+  const handlePriority = (selectedOptions) => {
     console.log(selectedOptions);
     setValue("priority", selectedOptions);
   };
@@ -59,7 +59,7 @@ const CreateTask = props => {
       </div>
     );
 
-  const allTeamsOptions = teams.map(team => {
+  const allTeamsOptions = teams.map((team) => {
     // the team is busy with another task
     return (
       <option disabled={team.task} key={team._id} value={JSON.stringify(team)}>
@@ -101,7 +101,7 @@ const CreateTask = props => {
             <div className="label">
               <span className="has-text-danger"> * </span>Deadline
             </div>
-            <input name="deadline" ref={register({ required: true, validate: date => moment(date).isAfter(new Date()) })} className="input" type="date" />
+            <input name="deadline" ref={register({ required: true, validate: (date) => moment(date).isAfter(new Date()) })} className="input" type="date" />
           </div>
           {errors.deadline && <p className="input-error-message">Date must be after the current date</p>}
 
@@ -125,7 +125,7 @@ const CreateTask = props => {
 
           <div className="field buttons is-right">
             <Link to="/dashboard">
-              <button className="button">
+              <button className="button is-link is-light">
                 <i className="fas fa-chevron-left m-r-sm"></i>
                 Back
               </button>

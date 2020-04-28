@@ -4,10 +4,10 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-const NewList = props => {
+const NewList = (props) => {
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = formData => {
+  const onSubmit = (formData) => {
     axios.post("http://localhost:3001/lists", { title: formData.title }).then(props.history.push("/dashboard"));
   };
 
@@ -23,7 +23,7 @@ const NewList = props => {
 
           <div className="field buttons is-right">
             <Link to="/dashboard">
-              <button className="button">
+              <button className="button is-link is-light">
                 <i className="fas fa-chevron-left m-r-sm"></i>
                 Back
               </button>

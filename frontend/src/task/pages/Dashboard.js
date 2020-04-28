@@ -9,14 +9,14 @@ class Dashboard extends Component {
     lists: [],
     tasks: [],
     currentListId: null,
-    currentUser: null
+    currentUser: null,
   };
 
   async componentDidMount() {
     const lists = await axios.get("http://localhost:3001/lists");
     console.log(lists);
     this.setState({
-      lists: [...lists.data]
+      lists: [...lists.data],
     });
     // default 1st list with its tasks
     if (this.state.lists.length) {
@@ -25,11 +25,15 @@ class Dashboard extends Component {
     console.log(this.state.lists);
   }
 
-  handleList = listId => {
-    axios.get(`http://localhost:3001/lists/${listId}/tasks`).then(res => {
+  componentDidUpdate() {
+    console.log("change!");
+  }
+
+  handleList = (listId) => {
+    axios.get(`http://localhost:3001/lists/${listId}/tasks`).then((res) => {
       this.setState({
         tasks: res.data,
-        currentListId: listId
+        currentListId: listId,
       });
     });
   };
@@ -46,7 +50,7 @@ class Dashboard extends Component {
     const listLists = !lists.length ? (
       <div>No lists added</div>
     ) : (
-      lists.map(list => {
+      lists.map((list) => {
         let active = list._id === this.state.currentListId ? "active" : "";
         return (
           <div onClick={() => this.handleList(list._id)} className={active + " list-menu-item"} key={list._id}>
