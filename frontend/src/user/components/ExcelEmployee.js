@@ -7,11 +7,9 @@ const ExelEmployee = () => {
   useEffect(() => {
     const fetchedData = async () => {
       const users = await axios("http://localhost:3001/users");
-      console.log(users.data);
       let maxClosed = 0;
       let maxUsers = [];
       users.data.forEach((user) => {
-        console.log(user.closedTasksCounter);
         if (user.closedTasksCounter === maxClosed) {
           maxUsers.push(user);
         }
@@ -20,7 +18,6 @@ const ExelEmployee = () => {
           maxUsers = [user];
         }
       });
-      console.log(maxUsers);
       setUsers(maxUsers);
     };
 
@@ -56,7 +53,7 @@ const ExelEmployee = () => {
           </div>
         </div>
         <hr style={{ backgroundColor: "#93750112" }} />
-        <span className="help">* the credit for closing tasks only goes to the one who created it in the first place.</span>
+        <span className="help">* The credit for closing tasks goes to the entire team members.</span>
       </div>
     </article>
   );

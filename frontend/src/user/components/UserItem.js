@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const UserItem = (props) => {
-  const { user } = props;
+  const [teams, setTeams] = useState([]);
 
-  // const userTeams = user.tasks
-  console.log(user);
+  useEffect(() => {
+    props.user.teams.forEach(async (teamId) => {
+      const team = await axios.get(`http://localhost:3001/teams/${teamId}`);
+      setTeams((teams) => [...teams, team.data.title]);
+    });
+  }, []);
+
+  const { user } = props;
+  const teamsWithTags = teams.map((team, index) => (
+    <span key={index} className="tag m-r-xs">
+      {team}
+    </span>
+  ));
 
   return (
     <tr>
@@ -16,6 +28,7 @@ const UserItem = (props) => {
       <td>{user.username}</td>
       <td>{user.email}</td>
       <td>{user.country}</td>
+      <td>{teamsWithTags}</td>
       <td>{user.closedTasksCounter}</td>
     </tr>
   );

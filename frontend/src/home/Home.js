@@ -9,6 +9,9 @@ const Home = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3001/utils/twitter").then((res) => setTweets(res.data));
+    setInterval(() => {
+      axios.get("http://localhost:3001/utils/twitter").then((res) => setTweets(res.data));
+    }, 10000);
   }, []);
 
   const { isLoggedIn } = useContext(UserContext);
