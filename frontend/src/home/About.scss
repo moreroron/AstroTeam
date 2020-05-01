@@ -1,20 +1,15 @@
 .vector {
-    margin: 0 auto 0 auto;
+  margin: 0 auto 0 auto;
 }
 
 .shadowing {
-    text-shadow: 2px 2px 2px #bed7ff;
+  text-shadow: 2px 2px 2px #bed7ff;
 }
 
-.three-col {
-    -moz-column-count: 2;
-    -moz-column-gap: 40px;
-    -webkit-column-count: 2;
-    -webkit-column-gap: 40px;
-    -moz-column-rule-color: rgba(0, 0, 0, 0.103);
-    -moz-column-rule-style: solid;
-    -moz-column-rule-width: 1px;
-    -webkit-column-rule-color: rgba(0, 0, 0, 0.103);
-    -webkit-column-rule-style: solid;
-    -webkit-column-rule-width: 1px;
+.multiple-col {
+  column-count: 2;
+  column-gap: 40px;
+  column-rule-color: rgba(0, 0, 0, 0.103);
+  column-rule-style: solid;
+  column-rule-width: 1px;
 }

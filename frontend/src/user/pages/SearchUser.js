@@ -86,7 +86,7 @@ class SearchUser extends Component {
     if (e.target.value === "all") {
       filteredByCounries = [...this.state.users];
       isAllCountries = true;
-      // // country was selected
+      // country was selected
     } else {
       filteredByCounries = this.state.users.filter((user) => user.country === e.target.value);
       isAllCountries = false;
@@ -111,6 +111,7 @@ class SearchUser extends Component {
       let userIdByCountry = userByCountry === undefined ? 0 : userByCountry._id;
       let userIdByTeam = userByTeam === undefined ? 0 : userByTeam._id;
 
+      // check if the user is in all arrays (match every parameter)
       return (userIdByKeyword === user._id || this.state.isKeywordEmpty) && (userIdByCountry === user._id || this.state.isAllCountries) && (userIdByTeam === user._id || this.state.isAllTeams);
     });
     this.setState({ filteredUsers: finalFilteredUsers });

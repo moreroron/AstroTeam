@@ -5,6 +5,7 @@
 
 // fonts
 $family-sans-serif: "Roboto", sans-serif;
+$font-primary: "Roboto", sans-serif;
 $font-secondary: "Odibee Sans";
 
 // colors
@@ -22,6 +23,9 @@ $table-cell-border: none;
 $table-cell-heading-color: grey;
 $table-head-cell-color: grey;
 $input-shadow: none;
+
+$tabs-boxed-link-hover-background-color: #e3ebf3;
+$tabs-link-active-color: $blue;
 
 html {
   background: aliceblue;
@@ -74,7 +78,7 @@ table {
 }
 
 .title {
-  font-family: "Lato";
+  font-family: $font-primary;
   font-size: 25px !important;
 }
 

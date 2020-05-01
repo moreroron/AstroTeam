@@ -11,6 +11,16 @@ const SearchTask = (props) => {
   const [tasks, setTasks] = useState([]);
   const [status, setStatus] = useState("all");
   const [date, setDate] = useState();
+
+  const [filteredByKeyword, setFilteredByKeyword] = useState([]);
+  const [filteredByStatus, setFilteredByStatus] = useState([]);
+  const [filteredByDate, setFilteredByDate] = useState([]);
+  const [isKeywordEmpty, setIsKeywordEmpty] = useState(true);
+  const [isAllStatuses, setIsAllStatuses] = useState(true);
+  const [isAllDates, setIsAllDates] = useState(true);
+
+  const [filteredTasks, setFilteredTasks] = useState([]);
+
   const [calToggle, setCalToggle] = useState("");
   const [cal, setCal] = useState([
     {
@@ -19,29 +29,59 @@ const SearchTask = (props) => {
       key: "selection",
     },
   ]);
+  const [hideCancelFilterBtn, setHideCancelFilterBtn] = useState("is-hidden");
 
   useEffect(() => {
-    const reverseOrder = props.tasks.sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
-    });
+    const reverseOrder = props.tasks.sort((a, b) => new Date(b.date) - new Date(a.date));
     setTasks(reverseOrder);
+    setFilteredTasks(reverseOrder);
   }, [props.tasks]);
 
-  const handleChange = (e) => {
-    const filteredTasks = props.tasks.filter((task) => {
-      return task.title.includes(e.target.value);
+  // finalCut
+  useEffect(() => {
+    const finalFilteredTasks = tasks.filter((task) => {
+      let taskByKeyword = filteredByKeyword.find((t) => t._id === task._id);
+      let taskByStatus = filteredByStatus.find((t) => t._id === task._id);
+      let taskByDate = filteredByDate.find((t) => t._id === task._id);
+
+      // console.log("taskByKeyword", taskByKeyword);
+      // console.log("taskByStatus", taskByStatus);
+      // console.log("taskByDate", taskByDate);
+
+      let taskIdByKeyword = taskByKeyword === undefined ? 0 : taskByKeyword._id;
+      let taskIdByStatus = taskByStatus === undefined ? 0 : taskByStatus._id;
+      let taskIdByDate = taskByDate === undefined ? 0 : taskByDate._id;
+
+      // console.log("filteredIdByKeyword", taskByKeyword);
+      // console.log("taskIdByKeyword", task._id);
+
+      console.log("isKeywordEmpty", isKeywordEmpty);
+      console.log("isAllStatuses", taskIdByStatus === task._id || isAllStatuses);
+      console.log("isAllDates", isAllDates);
+
+      return (taskIdByKeyword === task._id || isKeywordEmpty) && (taskIdByStatus === task._id || isAllStatuses) && (taskIdByDate === task._id || isAllDates);
     });
-    e.target.value !== "" ? setTasks(filteredTasks) : setTasks(props.tasks);
+
+    setFilteredTasks(finalFilteredTasks);
+    console.log("finalFilteredTasks", finalFilteredTasks);
+  }, [filteredByKeyword, filteredByStatus, filteredByDate, isKeywordEmpty, isAllStatuses, isAllDates]);
+
+  const handleChange = (e) => {
+    // empty search box - return all tasks
+    const filteredByKeyword = e.target.value === "" ? [...tasks] : [...tasks.filter((task) => task.title.includes(e.target.value))];
+    setFilteredByKeyword([...filteredByKeyword]);
+    // word entered - return users contains the word in their username
+    const isKeywordEmpty = e.target.value === "" ? true : false;
+    setIsKeywordEmpty(isKeywordEmpty);
   };
 
   const handleStatusChange = (e) => {
-    let filteredTasks = props.tasks.filter((task) => {
-      return task.status === e.target.value;
-    });
-    setStatus(e.target.value);
-    setTasks(filteredTasks);
-    // all is selected
-    if (e.target.value === "all") setTasks(props.tasks);
+    // 'All' is selected - return all tasks
+    const filteredByStatus = e.target.value === "all" ? [...tasks] : [...tasks.filter((task) => task.status === e.target.value)];
+    setFilteredByStatus([...filteredByStatus]);
+    // word entered - return users contains the word in their username
+    const isAllStatuses = e.target.value === "" ? true : false;
+    setIsAllStatuses(isAllStatuses);
   };
 
   const handleDateChange = (e) => {
@@ -50,17 +90,19 @@ const SearchTask = (props) => {
       else if (e.target.value === "old") return new Date(a.date) - new Date(b.date);
     });
     setDate(e.target.value);
-    setTasks(filteredTasks);
+    // setTasks(filteredTasks);
   };
 
   const handleCal = (item) => {
     setCal([item.selection]);
     const start = item.selection.startDate;
     const end = item.selection.endDate;
-    const filteredTasks = props.tasks.filter((task) => {
-      return moment(task.deadline).isBetween(start, end);
-    });
-    setTasks([...filteredTasks]);
+
+    const filteredByDate = tasks.filter((task) => moment(task.deadline).isBetween(start, end));
+    setFilteredByDate(filteredByDate);
+    setIsAllDates(false);
+
+    if (filteredByDate.length) setHideCancelFilterBtn("");
   };
 
   const handleCalToggle = () => {
@@ -87,7 +129,7 @@ const SearchTask = (props) => {
           <div className="column is-narrow">
             <label className="label">By Status</label>
             <div className="select">
-              <select value={status} onChange={handleStatusChange}>
+              <select onChange={handleStatusChange}>
                 <option value="all">ALL</option>
                 <option value="open">OPEN</option>
                 <option value="bug">BUG</option>
@@ -97,7 +139,26 @@ const SearchTask = (props) => {
           </div>
 
           <div className="column is-narrow">
-            <label className="label">By Deadline</label>
+            <div className="label">
+              <div className="level">
+                <div className="level-left">By Deadline</div>
+                <div className="level-right">
+                  <button
+                    onClick={() => {
+                      setFilteredByDate(tasks);
+                      setHideCancelFilterBtn("is-hidden");
+                    }}
+                    className={hideCancelFilterBtn}
+                    style={{ paddingRight: "0.2em", paddingLeft: "0.2em", cursor: "pointer" }}
+                  >
+                    <span className="icon is-small">
+                      <i className="fas fa-times"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div className={calToggle + " dropdown is-right"}>
               <div className="dropdown-trigger">
                 <button onClick={handleCalToggle} className="button" aria-haspopup="true" aria-controls="dropdown-menu6">
@@ -128,7 +189,7 @@ const SearchTask = (props) => {
           </div>
         </div>
       </div>
-      <TaskList tasks={tasks} />
+      <TaskList tasks={filteredTasks} />
     </>
   );
 };
