@@ -1,37 +1,28 @@
 ### Before Installation
 
-1. create keys.js in api folder and put the following code inside it:
-
-```
-module.exports = {
-    google: {
-        clientID: '<yourGoogleCliendIDkey>',
-        clientSecret: '<yourGoogleClientSecretKey>'
-    },
-    session: {
-        cookieKey: 'randomPassword'
-    }
-}
-```
-
-2. create keys.js in frontend folder and put the following code inside it:
-
-```
-export default {
-    googleMaps: '<YourGoogleMapsKey>'
-}
-```
+0. make sure you have 'node' installed.
+1. fill in all the keys in both `api/keys.js` and `frontend/keys.js`
 
 ### Installation
 
-```
-cd api
-npm install
-node app
-cd frontend
-npm install
-npm start
-```
+# server configuration
 
-- the api server is listening on port 3001
-- the react app is listening on port 3000
+1. navigate to api folder
+   `cd api`
+
+2. install server dependencies
+   `npm install`
+
+3. run server (listening on port 3001, can be changed in `api/app.js`)
+   node app
+
+# client configuration
+
+1. navigate to frontend folder
+   `cd frontend`
+
+2. install client dependencies
+   `npm install`
+
+3. run client
+   `npm start`
