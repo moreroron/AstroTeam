@@ -1,39 +1,39 @@
-@import '../../index.scss';
+// @import '../../index.scss';
 
 .task {
-    background: white;
-    padding: 15px 20px;
-    border-radius: 5px;
-    margin-top: 10px;
+  position: relative;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  margin-top: 10px;
 
-    &:not(.complete) {
+  &:not(.complete) {
+    cursor: pointer;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 
-        cursor: pointer;
-        transition: box-shadow 0.2s ease, transform 0.2s ease;
-
-        &:active {
-            transform: scale(0.95);
-        }
-
-        &:hover {
-            box-shadow: 0 0 0 5px #00000005;
-        }
+    &:active {
+      transform: scale(0.95);
     }
 
-    &.complete {
-        text-decoration: line-through;
-        opacity: 0.6;
+    &:hover {
+      box-shadow: 0 0 0 5px #00000005;
     }
+  }
+
+  &.complete {
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
 }
 
 .time {
-    color: rgb(214, 214, 214);
+  color: rgb(214, 214, 214);
 }
 
 .rightside-tags {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 .mytag {
-    border: 1px solid whitesmoke;
+  border: 1px solid whitesmoke;
 }

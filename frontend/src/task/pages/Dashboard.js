@@ -65,7 +65,9 @@ class Dashboard extends Component {
         <div className="task-manager-container">
           {/* leftside - name of lists */}
           <div className="sidebar has-background-white">
-            <h1 className="title has-text-link">Lists ({lists.length})</h1>
+            <h1 className="title has-text-link">
+              Lists <span className="tag is-link">{lists.length}</span>
+            </h1>
             <div className="list-menu">{listLists}</div>
             <Link to="/new-list">
               <button className="is-fullwidth button is-link has-text-white">
@@ -79,7 +81,9 @@ class Dashboard extends Component {
             <div className="level">
               <div className="level-left">
                 <div className="level-item">
-                  <h1 className="title has-text-link">Tasks ({this.state.tasks.length})</h1>
+                  <h1 className="title has-text-link">
+                    Tasks <span className="tag is-link">{this.state.tasks.length}</span>
+                  </h1>
                 </div>
               </div>
               <div className="level-right">

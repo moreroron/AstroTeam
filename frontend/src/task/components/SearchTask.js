@@ -44,26 +44,16 @@ const SearchTask = (props) => {
       let taskByStatus = filteredByStatus.find((t) => t._id === task._id);
       let taskByDate = filteredByDate.find((t) => t._id === task._id);
 
-      // console.log("taskByKeyword", taskByKeyword);
-      // console.log("taskByStatus", taskByStatus);
-      // console.log("taskByDate", taskByDate);
-
       let taskIdByKeyword = taskByKeyword === undefined ? 0 : taskByKeyword._id;
       let taskIdByStatus = taskByStatus === undefined ? 0 : taskByStatus._id;
       let taskIdByDate = taskByDate === undefined ? 0 : taskByDate._id;
 
-      // console.log("filteredIdByKeyword", taskByKeyword);
-      // console.log("taskIdByKeyword", task._id);
-
-      console.log("isKeywordEmpty", isKeywordEmpty);
-      console.log("isAllStatuses", taskIdByStatus === task._id || isAllStatuses);
-      console.log("isAllDates", isAllDates);
-
       return (taskIdByKeyword === task._id || isKeywordEmpty) && (taskIdByStatus === task._id || isAllStatuses) && (taskIdByDate === task._id || isAllDates);
     });
 
-    setFilteredTasks(finalFilteredTasks);
-    console.log("finalFilteredTasks", finalFilteredTasks);
+    const reorderFilteredTasks = finalFilteredTasks.sort((a, b) => (date === "new" ? new Date(b.date) - new Date(a.date) : new Date(a.date) - new Date(b.date)));
+
+    setFilteredTasks(reorderFilteredTasks);
   }, [filteredByKeyword, filteredByStatus, filteredByDate, isKeywordEmpty, isAllStatuses, isAllDates]);
 
   const handleChange = (e) => {
@@ -85,12 +75,12 @@ const SearchTask = (props) => {
   };
 
   const handleDateChange = (e) => {
-    let filteredTasks = tasks.sort((a, b) => {
+    let reorderFilteredTasks = filteredTasks.sort((a, b) => {
       if (e.target.value === "new") return new Date(b.date) - new Date(a.date);
       else if (e.target.value === "old") return new Date(a.date) - new Date(b.date);
     });
     setDate(e.target.value);
-    // setTasks(filteredTasks);
+    setFilteredTasks(reorderFilteredTasks);
   };
 
   const handleCal = (item) => {
@@ -148,7 +138,7 @@ const SearchTask = (props) => {
                       setFilteredByDate(tasks);
                       setHideCancelFilterBtn("is-hidden");
                     }}
-                    className={hideCancelFilterBtn}
+                    className={"delete is-small " + hideCancelFilterBtn}
                     style={{ paddingRight: "0.2em", paddingLeft: "0.2em", cursor: "pointer" }}
                   >
                     <span className="icon is-small">
