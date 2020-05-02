@@ -1,5 +1,6 @@
 ### Before Installation
-1) create keys.js in api folder and put the following code inside it:
+
+1. create keys.js in api folder and put the following code inside it:
 
 ```
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
 }
 ```
 
-2) create keys.js in frontend folder and put the following code inside it:
+2. create keys.js in frontend folder and put the following code inside it:
 
 ```
 export default {
@@ -25,11 +26,12 @@ export default {
 
 ```
 cd api
+npm install
 node app
 cd frontend
+npm install
 npm start
 ```
 
-* the api server is listening on port 3001
-* the react app is listening on port 3000
-
+- the api server is listening on port 3001
+- the react app is listening on port 3000
