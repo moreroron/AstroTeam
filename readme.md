@@ -14,7 +14,7 @@
    `npm install`
 
 3. run server (listening on port 3001, can be changed in `api/app.js`)
-   node app
+   `node app`
 
 ### client configuration
 
