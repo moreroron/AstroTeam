@@ -13,12 +13,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "israel",
   },
-  tasks: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Task",
-    },
-  ],
   teams: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -39,23 +39,16 @@ class EditTask extends Component {
       currentTeam: taskData.team,
       currentStatus: taskData.status,
     });
-    // console.log(taskData, userData.data[0]);
     console.log(this.state.currentTeam);
   }
 
   handleSubmit = async (e, listId, taskId) => {
     e.preventDefault();
-    // checking if set to closed - save closedDate
-    let closedDate = null;
-    if (this.state.task.status === "closed") {
-      closedDate = new Date();
-    }
     // update task
     const { data } = await axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`, {
       title: this.state.task.title,
       status: this.state.task.status,
       priority: this.state.task.priority,
-      closedDate: closedDate,
       team: this.state.task.team,
     });
     // update team's task to null if task is closed (so they can take new task)
