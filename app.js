@@ -90,7 +90,7 @@ app.get("/geocode/:address", (req, res) => {
 // for production mode
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('frontend/build'));
-  app.get('*', (req, res) => {
+  app.get('/dashboard', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
   });
 }
