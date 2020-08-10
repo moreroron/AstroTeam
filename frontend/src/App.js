@@ -49,7 +49,7 @@ function App() {
   }, []);
 
   const getAuthUser = (userId, auth) => {
-    axios.get(`https://evening-basin-86768.herokuapp.com//users/${userId}`).then(res => {
+    axios.get(`https://evening-basin-86768.herokuapp.com/users/${userId}`).then(res => {
       setUser({
         isLoggedIn: auth,
         profile: res.data

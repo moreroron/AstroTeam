@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 
 const PATH = process.env.NODE_ENV === 'production'
-    ? "/dashboard"
+    ? "https://evening-basin-86768.herokuapp.com/dashboard"
     : "http://localhost:3000/dashboard";
 
 router.get('/logout', (req, res) => {
