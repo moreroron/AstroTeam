@@ -3,7 +3,6 @@ const router = express.Router();
 const List = require('../db/models/list.model');
 const Task = require('../db/models/task.model');
 const Team = require('../db/models/team-model');
-const moment = require('moment');
 
 // GET /lists
 // purpose: get all lists

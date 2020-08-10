@@ -45,7 +45,7 @@ class EditTask extends Component {
   handleSubmit = async (e, listId, taskId) => {
     e.preventDefault();
     // update task
-    const { data } = await axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`, {
+    await axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`, {
       title: this.state.task.title,
       status: this.state.task.status,
       priority: this.state.task.priority,
@@ -53,24 +53,24 @@ class EditTask extends Component {
     });
     // update team's task to null if task is closed (so they can take new task)
     if (this.state.task.status === "closed") {
-      const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
+      await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
         task: null,
       });
       // add 1 to user's closedTasksCounter
       this.state.currentTeam.users.forEach(async (userId) => {
         let user = await axios.get(`http://localhost:3001/users/${userId}`);
-        let { data } = await axios.patch(`http://localhost:3001/users/${userId}`, {
+        await axios.patch(`http://localhost:3001/users/${userId}`, {
           closedTasksCounter: user.data.closedTasksCounter + 1,
         });
       });
     } else {
-      const team = await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
+      await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
         task: this.state.task,
       });
     }
 
     // update current team task to null if team was switched to other
-    const team = await axios.patch(`http://localhost:3001/teams/${this.state.currentTeam._id}`, {
+    await axios.patch(`http://localhost:3001/teams/${this.state.currentTeam._id}`, {
       task: null,
     });
     this.props.history.push("/dashboard");
@@ -96,7 +96,7 @@ class EditTask extends Component {
 
   handleDeleteTask = async (e) => {
     const { task } = this.state;
-    const { data } = await axios.delete(`http://localhost:3001/lists/${task._listId}/tasks/${task._id}`);
+    await axios.delete(`http://localhost:3001/lists/${task._listId}/tasks/${task._id}`);
     this.props.history.push("/dashboard");
   };
 
@@ -119,11 +119,11 @@ class EditTask extends Component {
       this.state.currentStatus !== "closed" ? (
         <h1 className="title">Edit the task</h1>
       ) : (
-        <>
-          <h1 className="title">The task is closed</h1>
-          <p className="m-b-md">You can only edit non-closed tasks!</p>
-        </>
-      );
+          <>
+            <h1 className="title">The task is closed</h1>
+            <p className="m-b-md">You can only edit non-closed tasks!</p>
+          </>
+        );
 
     const closedTaskWarning = this.state.task.status === "closed" && this.state.currentStatus !== "closed" ? "* If you close the task you won't be able to edit it afterwards." : "";
 

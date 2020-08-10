@@ -8,10 +8,27 @@ const Home = () => {
   const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/utils/twitter").then((res) => setTweets(res.data));
-    setInterval(() => {
-      axios.get("http://localhost:3001/utils/twitter").then((res) => setTweets(res.data));
-    }, 10000);
+    const source = axios.CancelToken.source();
+
+    const fetchTweets = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:3001/utils/twitter", { cancelToken: source.token });
+        setTweets(data);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("unsubscribe api call");
+        } else {
+          throw (error);
+        }
+      }
+    }
+
+    fetchTweets();
+    setInterval(fetchTweets, 60000);
+
+    return () => {
+      source.cancel();
+    }
   }, []);
 
   const { isLoggedIn } = useContext(UserContext);
@@ -25,20 +42,20 @@ const Home = () => {
       Create New List
     </button>
   ) : (
-    <button
-      onClick={() => {
-        window.location.replace("http://localhost:3001/auth/google");
-      }}
-      className="btn-danger"
-    >
-      <span>Sign up with</span>
-      <span className="icon">
-        <i className="fab fa-google"></i>
-      </span>
-    </button>
-  );
+      <button
+        onClick={() => {
+          window.location.replace("http://localhost:3001/auth/google");
+        }}
+        className="btn-danger"
+      >
+        <span>Sign up with</span>
+        <span className="icon">
+          <i className="fab fa-google"></i>
+        </span>
+      </button>
+    );
 
-  const allTweets = tweets.map((tweet, index) => (
+  const allTweets = tweets && tweets.map((tweet, index) => (
     <div className="tile tweet is-vertical is-3" key={index}>
       <div className="tile">{tweet.text}</div>
       <div className="tile">{moment(tweet.date).calendar()}</div>

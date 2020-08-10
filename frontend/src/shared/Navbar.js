@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.scss";
 import UserContext from "../UserContext";
-import CreateTeam from "../team/pages/CreateTeam";
 
 const Navbar = () => {
   const { isLoggedIn, profile } = useContext(UserContext);
@@ -89,7 +88,7 @@ const Navbar = () => {
     </>
   ) : (
     <p className="navbar-note">
-      The goodies doesn't come for free, <strong>Sign In</strong> first
+      The goodies don't come for free, <strong>Sign In</strong> first
     </p>
   );
 

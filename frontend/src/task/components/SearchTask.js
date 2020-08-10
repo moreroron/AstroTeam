@@ -9,7 +9,6 @@ import { DateRange } from "react-date-range";
 
 const SearchTask = (props) => {
   const [tasks, setTasks] = useState([]);
-  const [status, setStatus] = useState("all");
   const [date, setDate] = useState();
 
   const [filteredByKeyword, setFilteredByKeyword] = useState([]);
@@ -51,10 +50,14 @@ const SearchTask = (props) => {
       return (taskIdByKeyword === task._id || isKeywordEmpty) && (taskIdByStatus === task._id || isAllStatuses) && (taskIdByDate === task._id || isAllDates);
     });
 
-    const reorderFilteredTasks = finalFilteredTasks.sort((a, b) => (date === "new" ? new Date(b.date) - new Date(a.date) : new Date(a.date) - new Date(b.date)));
+    const reorderFilteredTasks = finalFilteredTasks.sort((a, b) =>
+      date === "new"
+        ? new Date(b.date) - new Date(a.date)
+        : new Date(a.date) - new Date(b.date)
+    );
 
     setFilteredTasks(reorderFilteredTasks);
-  }, [filteredByKeyword, filteredByStatus, filteredByDate, isKeywordEmpty, isAllStatuses, isAllDates]);
+  }, [filteredByKeyword, filteredByStatus, filteredByDate, isKeywordEmpty, isAllStatuses, isAllDates, date, tasks]);
 
   const handleChange = (e) => {
     // empty search box - return all tasks
@@ -77,7 +80,7 @@ const SearchTask = (props) => {
   const handleDateChange = (e) => {
     let reorderFilteredTasks = filteredTasks.sort((a, b) => {
       if (e.target.value === "new") return new Date(b.date) - new Date(a.date);
-      else if (e.target.value === "old") return new Date(a.date) - new Date(b.date);
+      else return new Date(a.date) - new Date(b.date);
     });
     setDate(e.target.value);
     setFilteredTasks(reorderFilteredTasks);
