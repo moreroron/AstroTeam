@@ -36,7 +36,7 @@ function App() {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/", { withCredentials: true }).then(res => {
+    axios.get("https://evening-basin-86768.herokuapp.com/", { withCredentials: true }).then(res => {
       // user is authenticated
       if (res.data.authenticated) getAuthUser(res.data.user, res.data.authenticated);
       // user is not
@@ -49,7 +49,7 @@ function App() {
   }, []);
 
   const getAuthUser = (userId, auth) => {
-    axios.get(`http://localhost:3001/users/${userId}`).then(res => {
+    axios.get(`https://evening-basin-86768.herokuapp.com//users/${userId}`).then(res => {
       setUser({
         isLoggedIn: auth,
         profile: res.data
