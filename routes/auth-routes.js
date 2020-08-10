@@ -1,10 +1,13 @@
 const router = require('express').Router();
 const passport = require('passport');
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000/dashboard";
+
+const PATH = process.env.NODE_ENV === 'production'
+    ? "https://evening-basin-86768.herokuapp.com/dashboard"
+    : "http://localhost:3000/dashboard";
 
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect("http://localhost:3000/dashboard");
+    res.redirect(PATH);
 });
 
 // auth with google
@@ -13,7 +16,7 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect(CLIENT_HOME_PAGE_URL);
+    res.redirect(PATH);
 });
 
 module.exports = router;
