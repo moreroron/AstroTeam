@@ -48,7 +48,7 @@ const Navbar = () => {
               <Link to="" className="dropdown-item">
                 <button
                   onClick={() => {
-                    window.location.replace("http://localhost:3001/auth/logout");
+                    window.location.replace("https://evening-basin-86768.herokuapp.com/auth/logout");
                   }}
                   className="button google-btn"
                 >
@@ -63,7 +63,7 @@ const Navbar = () => {
   ) : (
     <button
       onClick={() => {
-        window.location.replace("http://localhost:3001/auth/google");
+        window.location.replace("https://evening-basin-86768.herokuapp.com/auth/google");
       }}
       className="button google-btn"
     >
