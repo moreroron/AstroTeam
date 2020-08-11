@@ -12,6 +12,7 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+    console.log("checking redirect");
     res.redirect('/dashboard/');
 });
 
