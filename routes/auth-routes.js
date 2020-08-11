@@ -12,8 +12,10 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    // res.redirect('/dashboard/');
-    res.send("call from /google/redirect");
+    process.env.NODE_ENV === 'production'
+        ? res.redirect('/dashboard')
+        : res.redirect('/localhost:3000/dashboard');
+    // res.send("call from /google/redirect");
 });
 
 module.exports = router;

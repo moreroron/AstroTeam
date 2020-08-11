@@ -63,7 +63,7 @@ const Navbar = () => {
   ) : (
     <button
       onClick={() => {
-        window.location.replace("https://evening-basin-86768.herokuapp.com/auth/google");
+        window.location.replace("http://evening-basin-86768.herokuapp.com/auth/google");
       }}
       className="button google-btn"
     >
