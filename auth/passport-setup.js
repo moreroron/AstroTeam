@@ -12,38 +12,32 @@ passport.deserializeUser((id, done) => {
     User.findById(id).then(user => {
         done(null, user.id);
     })
-
 })
 
-passport.use(
-    new GoogleStrategy({
-        // options for google strategy
-        //callbackURL: '/auth/google/redirect',
-        callbackURL: '/dashboard',
-        clientID: keys.google.clientID,
-        clientSecret: keys.google.clientSecret
-    }, (accessToken, refreshToken, profile, done) => {
-        // passport callback function
-        // check if user exists already
-        User.findOne({ googleId: profile.id }).then(currentUser => {
-            if (currentUser) {
-                // exists user
-                done(null, currentUser);
-            } else {
-                // new user
-                new User({
-                    username: profile.displayName,
-                    email: profile.emails[0].value,
-                    avatar: profile._json['picture'],
-                    googleId: profile.id,
-                }).save()
-                    .then(newUser => {
-                        console.log('new user created: ' + newUser);
-                        done(null, newUser);
-                    });
-            }
-        })
+passport.use(new GoogleStrategy({
+    callbackURL: '/auth/google/redirect',
+    clientID: keys.google.clientID,
+    clientSecret: keys.google.clientSecret
+}, (accessToken, refreshToken, profile, done) => {
 
-
+    // check if user exists already
+    User.findOne({ googleId: profile.id }).then(currentUser => {
+        if (currentUser) {
+            // exists user
+            done(null, currentUser);
+        } else {
+            // new user
+            new User({
+                username: profile.displayName,
+                email: profile.emails[0].value,
+                avatar: profile._json['picture'],
+                googleId: profile.id,
+            }).save()
+                .then(newUser => {
+                    console.log('new user created: ' + newUser);
+                    done(null, newUser);
+                });
+        }
     })
+})
 )

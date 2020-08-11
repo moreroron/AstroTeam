@@ -3,7 +3,7 @@ const passport = require('passport');
 
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/dashboard/');
+    res.redirect('/dashboard');
 });
 
 // auth with google
@@ -12,8 +12,8 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    console.log("checking redirect");
-    res.redirect('/dashboard/');
+    // res.redirect('/dashboard/');
+    res.send("call from /google/redirect");
 });
 
 module.exports = router;
