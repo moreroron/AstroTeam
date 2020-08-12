@@ -25,7 +25,7 @@ class EditTask extends Component {
   getUserData = () => axios.get(`/users/${this.context.profile._id}`);
   getTaskData = async () => {
     const { listId, taskId } = this.props.match.params;
-    const { data } = await axios.get(`lists/${listId}/tasks/${taskId}`);
+    const { data } = await axios.get(`/lists/${listId}/tasks/${taskId}`);
     return data;
   };
 
