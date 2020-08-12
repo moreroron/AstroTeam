@@ -45,16 +45,13 @@ const Navbar = () => {
                 <span className="m-l-sm">All Members</span>
               </Link>
               <hr className="dropdown-divider" />
-              <Link to="" className="dropdown-item">
-                <button
-                  onClick={() => {
-                    window.location.replace("https://evening-basin-86768.herokuapp.com/auth/logout");
-                  }}
-                  className="button google-btn"
-                >
+              <div to="" className="dropdown-item">
+                <button 
+                  onClick={() => window.location.replace('/auth/logout')}
+                  className="button google-btn">
                   Logout
                 </button>
-              </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -63,7 +60,7 @@ const Navbar = () => {
   ) : (
     <button
       onClick={() => {
-        window.location.replace("http://evening-basin-86768.herokuapp.com/auth/google");
+        window.location.replace("/auth/google");
       }}
       className="button google-btn"
     >

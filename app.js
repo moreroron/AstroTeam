@@ -57,7 +57,7 @@ app.use("/utils", utilsRoutes);
 // if it's already login, send the profile response,
 // otherwise, send a 401 response that the user is not authenticated
 // authCheck before navigating to home page
-app.get("/", (req, res) => {
+app.get("/authorize", (req, res) => {
   if (!req.user) {
     res.json({
       authenticated: false,

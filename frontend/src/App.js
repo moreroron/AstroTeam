@@ -36,7 +36,8 @@ function App() {
   };
 
   useEffect(() => {
-    axios.get("https://evening-basin-86768.herokuapp.com/", { withCredentials: true }).then(res => {
+    console.log("from App");
+    axios.get("/authorize", { withCredentials: true }).then(res => {
       // axios.get("http://localhost:3001/", { withCredentials: true }).then(res => {
       // user is authenticated
       if (res.data.authenticated) getAuthUser(res.data.user, res.data.authenticated);
@@ -50,7 +51,7 @@ function App() {
   }, []);
 
   const getAuthUser = (userId, auth) => {
-    axios.get(`https://evening-basin-86768.herokuapp.com/users/${userId}`).then(res => {
+    axios.get(`/users/${userId}`).then(res => {
       // axios.get(`http://localhost:3001/users/${userId}`).then(res => {
       setUser({
         isLoggedIn: auth,
@@ -77,8 +78,8 @@ function App() {
         <Route exact path="/chat" component={Chat} />
         <Route exact path="/teams/create-team" component={CreateTeam} />
         <Route exact path="/users" component={SearchUser} />
-        <Route exact path="/" component={Home} />
-        <Redirect to="/" />
+        <Route exact path="/home" component={Home} />
+        <Redirect to="/home" />
       </Switch>
     );
   } else {

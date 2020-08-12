@@ -19,12 +19,12 @@ export class MapContainer extends Component {
 
     async componentDidMount() {
         // get all users
-        const users = await axios.get('http://localhost:3001/users');
+        const users = await axios.get('/users');
         users.data.map(async user => {
             // get coordinates for each user from geocode api
-            let coordinates = await axios.get(`http://localhost:3001/geocode/${user.country}`);
+            let coordinates = await axios.get(`/geocode/${user.country}`);
             // get num of user for the country
-            let numOfUsersFromCountry = await axios.get(`http://localhost:3001/users/counries/${user.country}`);
+            let numOfUsersFromCountry = await axios.get(`/users/counries/${user.country}`);
             let obj = {
                 country: user.country.charAt(0).toUpperCase() + user.country.slice(1),
                 counter: numOfUsersFromCountry.data.totalUsersFromCountry,
