@@ -6,7 +6,7 @@ const UserItem = ({ user }) => {
 
   useEffect(() => {
     user.teams.forEach(async (teamId) => {
-      const team = await axios.get(`http://localhost:3001/teams/${teamId}`);
+      const team = await axios.get(`/teams/${teamId}`);
       setTeams((teams) => [...teams, team.data.title]);
     });
   }, [user]);

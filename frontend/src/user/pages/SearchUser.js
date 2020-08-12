@@ -18,8 +18,8 @@ class SearchUser extends Component {
   };
 
   async componentDidMount() {
-    const users = await axios.get("http://localhost:3001/users");
-    const teams = await axios.get("http://localhost:3001/teams");
+    const users = await axios.get("/users");
+    const teams = await axios.get("/teams");
     this.setState({
       users: [...users.data],
       filteredUsers: [...users.data],

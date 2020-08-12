@@ -14,11 +14,11 @@ const CreateTask = (props) => {
 
   useEffect(() => {
     register({ name: "priority" }, { required: true });
-    axios.get("http://localhost:3001/teams").then((teamsRes) => setTeams(teamsRes.data));
+    axios.get("/teams").then((teamsRes) => setTeams(teamsRes.data));
   }, [register]);
 
   const onSubmit = async (formData) => {
-    await axios.post(`http://localhost:3001/lists/${listId}/tasks`, {
+    await axios.post(`/lists/${listId}/tasks`, {
       author: profile._id,
       title: formData.title,
       status: formData.status,

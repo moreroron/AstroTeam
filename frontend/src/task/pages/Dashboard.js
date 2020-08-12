@@ -13,7 +13,7 @@ class Dashboard extends Component {
   };
 
   async componentDidMount() {
-    const lists = await axios.get("http://localhost:3001/lists");
+    const lists = await axios.get("/lists");
     this.setState({
       lists: [...lists.data],
     });
@@ -24,7 +24,7 @@ class Dashboard extends Component {
   }
 
   handleList = (listId) => {
-    axios.get(`http://localhost:3001/lists/${listId}/tasks`).then((res) => {
+    axios.get(`/lists/${listId}/tasks`).then((res) => {
       this.setState({
         tasks: res.data,
         currentListId: listId,
@@ -33,7 +33,7 @@ class Dashboard extends Component {
   };
 
   handleUser = () => {
-    axios.get("localhost:3000/dashboard", (req, res) => {
+    axios.get("/dashboard", (req, res) => {
       console.log(req.session);
     });
   };

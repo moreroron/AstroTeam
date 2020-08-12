@@ -10,7 +10,7 @@ class PieChart extends Component {
     }
 
     async componentDidMount() {
-        const { data } = await axios.get('http://localhost:3001/users');
+        const { data } = await axios.get('/users');
         data.forEach(user => {
             this.setState({ countries: [...this.state.countries, user.country] })
         });

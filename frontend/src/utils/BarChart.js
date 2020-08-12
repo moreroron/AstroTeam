@@ -10,7 +10,7 @@ class BarChart extends Component {
     }
 
     async componentDidMount() {
-        const { data } = await axios.get('http://localhost:3001/tasks');
+        const { data } = await axios.get('/tasks');
         let _deadlinePerDay = Array.from(Array(31), (i) => i = 0);
         const allDeadlinesSorted = data
             .filter(task => new Date(task.deadline).getMonth() === new Date().getMonth())

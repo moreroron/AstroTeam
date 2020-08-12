@@ -11,7 +11,7 @@ const CreateTeam = (props) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const { data } = await axios.get("http://localhost:3001/users");
+      const { data } = await axios.get("/users");
       setUsers(data);
       register({ name: "members" }, { required: true, validate: (members) => members });
     }
@@ -21,7 +21,7 @@ const CreateTeam = (props) => {
   const onSubmit = async (formData) => {
     console.log(formData);
     const members = formData.members.map((member) => member.value);
-    await axios.post("http://localhost:3001/teams", {
+    await axios.post("/teams", {
       title: formData.title,
       users: members,
     });

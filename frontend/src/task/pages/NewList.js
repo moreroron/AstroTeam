@@ -8,7 +8,7 @@ const NewList = (props) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (formData) => {
-    axios.post("http://localhost:3001/lists", { title: formData.title }).then(props.history.push("/dashboard"));
+    axios.post("/lists", { title: formData.title }).then(props.history.push("/dashboard"));
   };
 
   return (

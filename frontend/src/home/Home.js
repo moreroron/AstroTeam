@@ -3,7 +3,6 @@ import UserContext from "../UserContext";
 import "./Home.scss";
 import axios from "axios";
 import moment from "moment";
-import API from '../utils/API';
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
@@ -13,7 +12,7 @@ const Home = () => {
 
     const fetchTweets = async () => {
       try {
-        const { data } = await API.getTwitter(source);
+        const { data } = await axios.get("/utils/twitter", { cancelToken: source.token });
         setTweets(data);
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -36,7 +35,7 @@ const Home = () => {
   const button = isLoggedIn ? (
     <button
       onClick={() => {
-        window.location.replace("http://localhost:3000/dashboard");
+        window.location.replace("/dashboard");
       }}
       className="btn-primary"
     >
@@ -45,7 +44,7 @@ const Home = () => {
   ) : (
       <button
         onClick={() => {
-          window.location.replace("http://localhost:3001/auth/google");
+          window.location.replace("/auth/google");
         }}
         className="btn-danger"
       >

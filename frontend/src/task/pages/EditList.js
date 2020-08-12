@@ -11,8 +11,8 @@ class EditList extends Component {
 
   async componentDidMount() {
     const { listId } = this.props.match.params;
-    const list = await axios.get(`http://localhost:3001/lists/${listId}`);
-    const tasksOfList = await axios.get(`http://localhost:3001/lists/${listId}/tasks`);
+    const list = await axios.get(`/lists/${listId}`);
+    const tasksOfList = await axios.get(`/lists/${listId}/tasks`);
     this.setState({
       title: list.data.title,
       tasks: [...tasksOfList.data],
@@ -22,7 +22,7 @@ class EditList extends Component {
 
   handleSubmit = (e, listId) => {
     e.preventDefault();
-    axios.patch(`http://localhost:3001/lists/${listId}`, { title: this.state.title }).then(
+    axios.patch(`/lists/${listId}`, { title: this.state.title }).then(
       (res) => {
         console.log(res);
       },
@@ -42,7 +42,7 @@ class EditList extends Component {
 
   handleDeleteList = (listId) => {
     if (this.state.emptyList) {
-      axios.delete(`http://localhost:3001/lists/${listId}`).then(console.log("record deleted"));
+      axios.delete(`/lists/${listId}`).then(console.log("record deleted"));
     }
   };
 

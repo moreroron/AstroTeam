@@ -13,7 +13,7 @@ const Chat = () => {
     const [chat, setChat] = useState([]);
 
     useEffect(() => {
-        socketRef.current = socketIOCLient('http://localhost:3001');
+        socketRef.current = socketIOCLient('/');
         socketRef.current.on('chat', data => {
             setTyping('');
             setChat(chat => [...chat, {

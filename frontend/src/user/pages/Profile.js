@@ -18,7 +18,7 @@ const Profile = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .patch(`http://localhost:3001/users/${profile._id}`, {
+      .patch(`/users/${profile._id}`, {
         username: username,
         email: email,
         country: country.charAt(0).toUpperCase() + country.slice(1),

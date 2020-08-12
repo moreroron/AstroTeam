@@ -22,16 +22,16 @@ class EditTask extends Component {
 
   static contextType = UserContext;
 
-  getUserData = () => axios.get(`http://localhost:3001/users/${this.context.profile._id}`);
+  getUserData = () => axios.get(`/users/${this.context.profile._id}`);
   getTaskData = async () => {
     const { listId, taskId } = this.props.match.params;
-    const { data } = await axios.get(`http://localhost:3001/lists/${listId}/tasks/${taskId}`);
+    const { data } = await axios.get(`lists/${listId}/tasks/${taskId}`);
     return data;
   };
 
   async componentDidMount() {
     const [userData, taskData] = await axios.all([this.getUserData(), this.getTaskData()]);
-    const teams = await axios.get(`http://localhost:3001/teams`);
+    const teams = await axios.get(`/teams`);
     this.setState({
       user: userData.data[0],
       task: taskData,
@@ -45,7 +45,7 @@ class EditTask extends Component {
   handleSubmit = async (e, listId, taskId) => {
     e.preventDefault();
     // update task
-    await axios.patch(`http://localhost:3001/lists/${listId}/tasks/${taskId}`, {
+    await axios.patch(`/lists/${listId}/tasks/${taskId}`, {
       title: this.state.task.title,
       status: this.state.task.status,
       priority: this.state.task.priority,
@@ -53,24 +53,24 @@ class EditTask extends Component {
     });
     // update team's task to null if task is closed (so they can take new task)
     if (this.state.task.status === "closed") {
-      await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
+      await axios.patch(`/teams/${this.state.task.team._id}`, {
         task: null,
       });
       // add 1 to user's closedTasksCounter
       this.state.currentTeam.users.forEach(async (userId) => {
-        let user = await axios.get(`http://localhost:3001/users/${userId}`);
-        await axios.patch(`http://localhost:3001/users/${userId}`, {
+        let user = await axios.get(`/users/${userId}`);
+        await axios.patch(`/users/${userId}`, {
           closedTasksCounter: user.data.closedTasksCounter + 1,
         });
       });
     } else {
-      await axios.patch(`http://localhost:3001/teams/${this.state.task.team._id}`, {
+      await axios.patch(`/teams/${this.state.task.team._id}`, {
         task: this.state.task,
       });
     }
 
     // update current team task to null if team was switched to other
-    await axios.patch(`http://localhost:3001/teams/${this.state.currentTeam._id}`, {
+    await axios.patch(`/teams/${this.state.currentTeam._id}`, {
       task: null,
     });
     this.props.history.push("/dashboard");
@@ -96,7 +96,7 @@ class EditTask extends Component {
 
   handleDeleteTask = async (e) => {
     const { task } = this.state;
-    await axios.delete(`http://localhost:3001/lists/${task._listId}/tasks/${task._id}`);
+    await axios.delete(`/lists/${task._listId}/tasks/${task._id}`);
     this.props.history.push("/dashboard");
   };
 
