@@ -3,6 +3,7 @@ import UserContext from "../UserContext";
 import "./Home.scss";
 import axios from "axios";
 import moment from "moment";
+import API from '../utils/API';
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
@@ -12,7 +13,7 @@ const Home = () => {
 
     const fetchTweets = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3001/utils/twitter", { cancelToken: source.token });
+        const { data } = await API.getTwitter;
         setTweets(data);
       } catch (error) {
         if (axios.isCancel(error)) {
