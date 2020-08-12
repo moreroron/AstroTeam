@@ -13,7 +13,7 @@ const Home = () => {
 
     const fetchTweets = async () => {
       try {
-        const { data } = await API.getTwitter;
+        const { data } = await API.getTwitter(source);
         setTweets(data);
       } catch (error) {
         if (axios.isCancel(error)) {
