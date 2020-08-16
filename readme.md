@@ -11,8 +11,8 @@ A mern stack app built with React, NodeJS/express, MongoDB.
 - Using Axios for fetching data
 - Using D3.js JavaScript library for data visualization (display the quantity of opened tasks in each day and demographics for users using the app)
 - Using Twitter API for fetching AstroTeam channel data.
-- Using Google Maps API for pinning AstroTeam users demographics on a map.
-- Using Bulma- a css framework for all app visuals.
+- Using Google Maps API for pinning AstroTeam users on a map.
+- Using SCSS + Bulma, a CSS framework for all app visuals.
 
 
 ## Before Installation
