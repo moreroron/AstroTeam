@@ -18,19 +18,18 @@ A mern stack app built with React, NodeJS/express, MongoDB.
 ## Before Installation
 
 0. make sure you have `node` installed.
-1. fill in all the keys in both `api/keys_.js`, `frontend/keys_.js` and rename the files `keys.js`.
+1. fill in all the keys in both `/keys_.js`, `frontend/keys_.js` and rename the files `keys.js`.
 
 ## Installation
 
 ### server configuration
 
-1. navigate to api folder
-   `cd api`
+1. navigate to the root folder
 
 2. install server dependencies
    `npm install`
 
-3. run server (listening on port 3001, can be changed in `api/app.js`)
+3. run server (listening on port 3001, can be changed in `app.js`)
    `node app`
 
 ### client configuration
