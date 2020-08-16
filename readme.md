@@ -18,7 +18,7 @@ A mern stack app built with React, NodeJS/express, MongoDB.
 ## Before Installation
 
 0. make sure you have `node` installed.
-1. fill in all the keys in both `api/keys.js` and `frontend/keys.js`
+1. fill in all the keys in both `api/keys_.js`, `frontend/keys_.js` and rename the files `keys.js`.
 
 ## Installation
 
